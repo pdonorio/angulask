@@ -1,0 +1,8 @@
+cms:
+    image: pdonorio/flask_nginx_uwsgi
+    # DEBUG!
+    ##command: python3 run.py
+    volumes:
+        - ./hello.py:/app/run.py
+    ports:
+        - 80:80
