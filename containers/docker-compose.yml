@@ -1,8 +1,34 @@
-cms:
-    image: pdonorio/flask_nginx_uwsgi
+
+#########################################
+## GRAPHDB
+# https://github.com/neo4j/docker-neo4j
+
+graph:
+    image: neo4j/neo4j:2.3.0
+# The default configuration provided by this image is intended for learning about Neo4j, but must be modified to make it suitable for production use. In particular the memory assigned to Neo4j is very limited (see NEO4J_CACHE_MEMORY and NEO4J_HEAP_MEMORY below), to allow multiple containers to be run on the same server. You can read more about configuring Neo4j in the manual.
+    hostname: neo
+    ports:
+        - 7777:7474/tcp
+    restart: 'no'
+# REMOVE ME IN PRODUCTION
+    # environment:
+    #     NEO4J_AUTH: none # No passw for development
+# REMOVE ME IN PRODUCTION
+    cap_add:
+        - SYS_RESOURCE
+
+#########################################
+## FLASK CMS
+# https://github.com/pdonorio/dockerizing/blob/master/python/nginx_uwsgi
+
+flask:
+    image: pdonorio/flaskrods
     # DEBUG!
+    command: sleep 1234567890
     ##command: python3 run.py
     volumes:
         - ./hello.py:/app/run.py
     ports:
         - 80:80
+    links:
+        - graph:neo
