@@ -5,6 +5,7 @@
 from flask import Flask
 from py2neo import Graph, Node
 # from neomodel import db
+from plumbum.cmd import ils
 
 ###########################
 # GRAPH
@@ -39,6 +40,13 @@ alice = Node("Person", name='Alice')
 graph.create(alice)
 
 print("Graph is connected")
+
+###########################
+# IRODS
+###########################
+
+ils()
+print("Irods is connected")
 
 ###########################
 # FLASK

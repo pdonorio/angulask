@@ -17,6 +17,18 @@ graph:
     cap_add:
         - SYS_RESOURCE
 
+########################################
+## IRODS server
+#http://irods.org/post/irods-on-docker-update/#.Vji91TbhCV4
+
+irods:
+  image: irods/icat:4.0.3
+  hostname: rodserver
+  command: test
+  ports:
+      - 1247/tcp
+  tty: true
+
 #########################################
 ## FLASK CMS
 # https://github.com/pdonorio/dockerizing/blob/master/python/nginx_uwsgi
@@ -24,11 +36,14 @@ graph:
 flask:
     image: pdonorio/flaskrods
     # DEBUG!
-    command: sleep 1234567890
-    ##command: python3 run.py
+    #command: sleep 1234567890
+    command: /boot.sh
     volumes:
+        - ./boot.sh:/boot.sh
         - ./hello.py:/app/run.py
+        - ./irodsconf:/root/.irods
     ports:
         - 80:80
     links:
         - graph:neo
+        - irods:rodserver
