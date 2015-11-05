@@ -59,3 +59,6 @@ bower:
         - ../static:/web
     tty: true
     stdin_open: true
+    ports:
+        - 80:3000
+        - 8080:3001

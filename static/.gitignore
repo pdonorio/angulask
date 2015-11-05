@@ -1,0 +1,8 @@
+node_modules/
+gulp/
+bower_components/
+coverage/
+.sass-cache/
+.idea/
+.tmp/
+dist/
