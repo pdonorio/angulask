@@ -47,3 +47,15 @@ flask:
     links:
         - graph:neo
         - irods:rodserver
+
+#########################################
+## NODEjs
+# https://github.com/pdonorio/dockerizing/blob/master/js/node/Dockerfile
+
+bower:
+    image: pdonorio/jsdev
+    working_dir: /web
+    volumes:
+        - ../static:/web
+    tty: true
+    stdin_open: true

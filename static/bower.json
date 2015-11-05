@@ -1,0 +1,22 @@
+{
+  "name": "angulask",
+  "description": "angular on top of flask",
+  "main": "index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "authors": [
+    "Paolo",
+    "Mattia"
+  ],
+  "license": "MIT",
+  "homepage": "home.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
