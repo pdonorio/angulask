@@ -1,0 +1,15 @@
+
+Doing:
+
+  ☐ copy skeleton from autoforms
+    ☐ update flask_table to latest fixes @online
+    ☐ copy json configuration
+      ☐ or create new one
+  ☐ mix with gulp skeleton
+    ☐ link bower_components
+  ☐ fix bootstrap template
+    ☐ remove bootstrap4 cards
+
+--- ✄ -----------------------
+
+Completed:
