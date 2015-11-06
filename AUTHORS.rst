@@ -2,4 +2,5 @@
 Developers
 ==========
 
-* paulie <tempo.pause@gmail.com>
+* paulie <p.donoriodemeo@gmail.com>
+* mattia
