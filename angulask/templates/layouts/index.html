@@ -13,16 +13,9 @@
     <title>{{ project }}: {% block title %}{% endblock %}</title>
 
 <!-- styles -->
-{% for css in stylesheets %}
-<link rel="stylesheet" href="{{ css }}" />
+{% for css in stylesheets %}<link rel="stylesheet" href="{{ css }}" />
 {% endfor %}
-<!--
-<link href="/static/offline/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/static/offline/bootstrap.css">
-
-<link type="text/css" rel="stylesheet" href="/static/css/layout.main.css" />
-{% block customstylesheets %}{% endblock %}
--->
+{% block customstylesheets %}{% endblock %}<!-- styles -->
 
 </head>
 <body {% block bodyclass %}{% endblock %}>
@@ -57,15 +50,9 @@
 
 {% block footer %}{% endblock %}
 
-<!-- jQuery first, then Bootstrap JS.
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
--->
-
-<script src='/static/offline/jquery-2.1.4.min.js'></script>
-<script src="/static/offline/bootstrap.min.js"></script>
-<script defer src="/static/js/plugins.js"></script>
-<script defer src="/static/js/script.js"></script>
+<!-- javascript -->
+{% for js in jsfiles %}<script src="{{ js }}"></script>
+{% endfor %}<!-- javascript -->
 
   <!--
   Google Analytics - Change UA-XXXXX-X to be your site's ID

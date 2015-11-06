@@ -5,6 +5,7 @@
 
 import os
 import glob
+from pathlib import Path
 from flask import Blueprint, current_app, \
     render_template, request, flash, redirect, url_for, g
 from flask.ext.login import login_user, \
@@ -16,15 +17,45 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 
 cms = Blueprint('pages', __name__)
-bowerdir = 'static/bower'
+staticdir = 'static'
+bowerdir = staticdir + '/bower'
 css = [
     bowerdir + "/bootstrap/dist/css/bootstrap.min.css",
     bowerdir + "/angular-toastr/dist/angular-toastr.min.css",
-    bowerdir + "/animate.css/animate.min.css"
+    bowerdir + "/animate.css/animate.min.css",
+    staticdir + "/css/custom.css"
 ]
-js = []
+js = [
+    bowerdir + "/angular/angular.min.js",
+    bowerdir + "/angular-animate/angular-animate.min.js",
+    bowerdir + "/angular-cookies/angular-cookies.min.js",
+    bowerdir + "/angular-sanitize/angular-sanitize.min.js",
+    bowerdir + "/angular-toastr/dist/angular-toastr.min.js",
+    bowerdir + "/lodash/lodash.min.js",
+    bowerdir + "/restangular/dist/restangular.min.js",
+    bowerdir + "/angular-strap/dist/angular-strap.min.js",
+    bowerdir + "/angular-strap/dist/angular-strap.tpl.min.js",
+    bowerdir + "/moment/min/moment.min.js",
+    # ORDER
+    staticdir + "/app/index.module.js",
+    # NO ORDER
+    staticdir + "/app/index.constants.js",
+    staticdir + "/app/index.run.js",
+    staticdir + "/app/main/main.controller.js",
+    staticdir + "/app/index.config.js",
+]
+
+# prefix = __package__
+
+# for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
+#     jfile = str(pathfile)
+#     if jfile.startswith(prefix) and jfile.endswith('.js'):
+#             js.append(jfile[len(prefix):])
+
+# print(js)
 
 user_config['content']['stylesheets'] = css
+user_config['content']['jsfiles'] = js
 
 # ######################################################
 # #http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/#caching-decorator

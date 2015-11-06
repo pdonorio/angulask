@@ -61,6 +61,7 @@ flask:
     volumes:
         - ..:/data
         - ../jsdev/bower_components:/data/angulask/static/bower
+        - ../jsdev/src/app:/data/angulask/static/app
     ports:
         - 80:5000
 

@@ -2,6 +2,11 @@
   'use strict';
 
   angular
-    .module('web', ['ngAnimate', 'ngCookies', 'ngSanitize', 'restangular', 'mgcrea.ngStrap', 'toastr']);
+    .module('web', [
+        'ngAnimate', 'ngCookies', 'ngSanitize',
+        'restangular',
+        'mgcrea.ngStrap',
+        'toastr'
+    ]);
 
 })();
