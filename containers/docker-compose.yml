@@ -60,6 +60,7 @@ flask:
         FLASK_CONFIGURATION: development
     volumes:
         - ..:/data
+        - ../jsdev/bower_components:/data/angulask/static/bower
     ports:
         - 80:5000
 

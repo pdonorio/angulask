@@ -16,9 +16,15 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 
 cms = Blueprint('pages', __name__)
-user_config['content']['webstatic'] = 'bower_static'
-css = []
+bowerdir = 'static/bower'
+css = [
+    bowerdir + "/bootstrap/dist/css/bootstrap.min.css",
+    bowerdir + "/angular-toastr/dist/angular-toastr.min.css",
+    bowerdir + "/animate.css/animate.min.css"
+]
 js = []
+
+user_config['content']['stylesheets'] = css
 
 # ######################################################
 # #http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/#caching-decorator
