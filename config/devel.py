@@ -17,14 +17,17 @@ class MyConfig(BaseConfig):
     UPLOAD_FOLDER = '/uploads'
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-    # # We have POSTGRESQL. Use docker environment variables
-    # dbdriver = "postgresql"
-    # dbhost = os.environ["DB_NAME"].split('/')[2]
-    # dbport = int(os.environ["DB_PORT"].split(':')[2])
-    # dbuser = os.environ["DB_ENV_POSTGRES_USER"]
-    # dbpw = os.environ["DB_ENV_POSTGRES_PASSWORD"]
-    # database = os.environ["DB_ENV_POSTGRES_DB"]
+    try:
+        # We have POSTGRESQL. Use docker environment variables
+        dbhost = os.environ["DB_NAME"].split('/')[2]
+        dbport = int(os.environ["DB_PORT"].split(':')[2])
+        dbuser = os.environ["DB_ENV_POSTGRES_USER"]
+        dbpw = os.environ["DB_ENV_POSTGRES_PASSWORD"]
+        database = os.environ["DB_ENV_POSTGRES_DB"]
+        dbdriver = "postgresql"
 
-    # SQLALCHEMY_DATABASE_URI = "%s://%s:%s@%s:%d/%s" \
-    #     % (dbdriver, dbuser, dbpw, dbhost, dbport, database)
-
+        SQLALCHEMY_DATABASE_URI = "%s://%s:%s@%s:%d/%s" \
+            % (dbdriver, dbuser, dbpw, dbhost, dbport, database)
+    except Exception:
+        print("Cannot found a database instance. Switching to sqllite.")
+        pass
