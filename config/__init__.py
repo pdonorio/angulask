@@ -8,7 +8,7 @@ import json
 
 #######################
 # Warning: this decides about final configuration
-PATH = 'base'   # Main directory where all conf files are found
+PATH = 'angular'   # Main directory where all conf files are found
 # Warning: this decides about final configuration
 #######################
 

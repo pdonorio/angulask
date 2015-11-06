@@ -323,3 +323,10 @@ def upload(id):
 # Change this to view of single id
         return redirect('/view/' + str(id) + '?uploaded=' + filename)
 
+
+######################################################
+@cms.route('/angular', methods=["GET", "POST"])
+@login_required
+def angular():
+    template = 'angularviews/experiment.html'
+    return render_template(template, **user_config['content'])
