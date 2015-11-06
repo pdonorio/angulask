@@ -12,24 +12,21 @@ from .pages import cms
 from .basemodel import db, lm, User, MyModel
 
 config = {
-    "development": "config.DevelopmentConfig",
-    "default": "config.DevelopmentConfig"
+    "default": "config.BaseConfig",
+    "development": "config.devel.MyConfig",
     # "testing": "bookshelf.config.TestingConfig",
 }
 
 
-def init_insert(db, config):
-
+def init_insert(db, userconfig):
     # Add at least the first user
-# // TO FIX:
-# Make this DYNAMIC just like above
-    user = User(**config['BASIC_USER'])
+    user = User(**userconfig['BASIC_USER'])
     db.session.add(user)
     db.session.commit()
 
     # Try to populate with data if there is some
     modelname = 'mymodel'
-    csvfile = os.path.join(config['MYCONFIG_PATH'], modelname + '.csv')
+    csvfile = os.path.join(userconfig['MYCONFIG_PATH'], modelname + '.csv')
     if not os.path.exists(csvfile):
         return
 
@@ -57,12 +54,13 @@ def init_insert(db, config):
     db.session.commit()
 
 
-def create_app(config_filename):
+def create_app():
     """ Create the istance for Flask application """
     app = Flask(__name__)
 
     # Apply configuration
     config_name = os.getenv('FLASK_CONFIGURATION', 'default')
+    print("Configuration:\t%s[%s]" % (config_name, config[config_name]))
     app.config.from_object(config[config_name])
 
     # # Cache

@@ -16,6 +16,9 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 
 cms = Blueprint('pages', __name__)
+user_config['content']['webstatic'] = 'bower_static'
+css = []
+js = []
 
 # ######################################################
 # #http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/#caching-decorator

@@ -5,12 +5,10 @@
 
 # Import app factory
 from angulask import create_app
-# Choose configuration
-from config import DevelopmentConfig
-# Create the flask application object
-app = create_app(DevelopmentConfig)
+# Configuration is decided via environment variable: FLASK_CONFIGURATION
 
 if __name__ == '__main__':
+    app = create_app()
     host = app.config.get("HOST")
     port = app.config.get("PORT")
     app.run(host=host, port=port)

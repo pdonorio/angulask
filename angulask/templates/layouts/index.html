@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="web">
   <head>
 <!-- meta -->
     <meta charset="utf-8">
@@ -13,20 +13,17 @@
     <title>{{ project }}: {% block title %}{% endblock %}</title>
 
 
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/angular-toastr/dist/angular-toastr.css" />
+    <link rel="stylesheet" href="../bower_components/animate.css/animate.css" />
+
 <!-- styles
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
--->
 <link href="/static/offline/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/static/offline/bootstrap.css">
 
 <link type="text/css" rel="stylesheet" href="/static/css/layout.main.css" />
 {% block customstylesheets %}{% endblock %}
-<!-- /styles -->
-
-<!-- favicons -->
-<link rel="shortcut icon" href="/static/ico/favicon.png">
-<!-- /favicons -->
+-->
 
 </head>
 <body {% block bodyclass %}{% endblock %}>

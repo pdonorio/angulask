@@ -6,8 +6,6 @@
 import os
 import json
 
-########################################
-
 #######################
 # Warning: this decides about final configuration
 PATH = 'base'   # Main directory where all conf files are found
@@ -55,25 +53,3 @@ class BaseConfig(object):
         'password': user_config['content'].get('password', 'test'),
         'email': user_config['content'].get('email', 'idonotexist@test.com')
     }
-
-
-class DevelopmentConfig(BaseConfig):
-
-    DEBUG = True
-    HOST = '0.0.0.0'
-    WTF_CSRF_SECRET_KEY = 'a random string'
-
-    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-    UPLOAD_FOLDER = '/uploads'
-    ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
-    # # We have POSTGRESQL. Use docker environment variables
-    # dbdriver = "postgresql"
-    # dbhost = os.environ["DB_NAME"].split('/')[2]
-    # dbport = int(os.environ["DB_PORT"].split(':')[2])
-    # dbuser = os.environ["DB_ENV_POSTGRES_USER"]
-    # dbpw = os.environ["DB_ENV_POSTGRES_PASSWORD"]
-    # database = os.environ["DB_ENV_POSTGRES_DB"]
-
-    # SQLALCHEMY_DATABASE_URI = "%s://%s:%s@%s:%d/%s" \
-    #     % (dbdriver, dbuser, dbpw, dbhost, dbport, database)
