@@ -1,0 +1,18 @@
+
+Doing:
+  ✔ add angular page @done (15-11-06 13:56)
+  ☐ fix bootstrap template
+    ☐ remove bootstrap4 cards
+
+  ☐ Automatize the adding of a single page/model @hard
+
+--- ✄ -----------------------
+
+Completed:
+  ✔ Clean repo @done (15-11-06 08:41)
+  ✔ copy skeleton from autoforms @done (15-11-06 10:45)
+    ✔ update flask_table to latest fixes @online @done (15-11-06 13:41)
+    ✔ copy json configuration @done (15-11-06 10:45)
+      ✘ or create new one @cancelled (15-11-06 12:48)
+  ✔ mix with gulp skeleton @done (15-11-06 12:48)
+    ✔ link bower_components @done (15-11-06 10:54)
