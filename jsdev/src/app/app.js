@@ -6,7 +6,6 @@
         'ngAnimate', 'ngCookies', 'ngSanitize',
         'restangular',
         'mgcrea.ngStrap',
-        'toastr'
     ]);
 
 })();

@@ -17,42 +17,36 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 
 cms = Blueprint('pages', __name__)
-staticdir = 'static'
-bowerdir = staticdir + '/bower'
+staticdir = 'static/'
+bowerdir = staticdir + 'bower/'
 css = [
-    bowerdir + "/bootstrap/dist/css/bootstrap.min.css",
-    bowerdir + "/angular-toastr/dist/angular-toastr.min.css",
-    bowerdir + "/animate.css/animate.min.css",
-    staticdir + "/css/custom.css"
+    bowerdir + "font-awesome/css/font-awesome.min.css",
+    bowerdir + "bootstrap/dist/css/bootstrap.min.css",
+    bowerdir + "angular-toastr/dist/angular-toastr.min.css",
+    bowerdir + "animate.css/animate.min.css",
+    staticdir + "css/custom.css"
 ]
 js = [
-    bowerdir + "/angular/angular.min.js",
-    bowerdir + "/angular-animate/angular-animate.min.js",
-    bowerdir + "/angular-cookies/angular-cookies.min.js",
-    bowerdir + "/angular-sanitize/angular-sanitize.min.js",
-    bowerdir + "/angular-toastr/dist/angular-toastr.min.js",
-    bowerdir + "/lodash/lodash.min.js",
-    bowerdir + "/restangular/dist/restangular.min.js",
-    bowerdir + "/angular-strap/dist/angular-strap.min.js",
-    bowerdir + "/angular-strap/dist/angular-strap.tpl.min.js",
-    bowerdir + "/moment/min/moment.min.js",
-    # ORDER
-    staticdir + "/app/index.module.js",
-    # NO ORDER
-    staticdir + "/app/index.constants.js",
-    staticdir + "/app/index.run.js",
-    staticdir + "/app/main/main.controller.js",
-    staticdir + "/app/index.config.js",
+    bowerdir + "angular/angular.min.js",
+    bowerdir + "angular-animate/angular-animate.min.js",
+    bowerdir + "angular-cookies/angular-cookies.min.js",
+    bowerdir + "angular-sanitize/angular-sanitize.min.js",
+    bowerdir + "lodash/lodash.min.js",
+    bowerdir + "restangular/dist/restangular.min.js",
+    bowerdir + "angular-strap/dist/angular-strap.min.js",
+    bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
+    bowerdir + "moment/min/moment.min.js",
+    # Force order: the angularjs app declaration
+    staticdir + "app/app.js",
 ]
 
-# prefix = __package__
-
-# for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
-#     jfile = str(pathfile)
-#     if jfile.startswith(prefix) and jfile.endswith('.js'):
-#             js.append(jfile[len(prefix):])
-
-# print(js)
+# Dynamically load all other angularjs files
+prefix = __package__
+for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
+    strfile = str(pathfile)
+    jfile = strfile[len(prefix)+1:]
+    if jfile not in js:
+        js.append(jfile)
 
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
