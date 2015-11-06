@@ -74,6 +74,8 @@ user_config['content']['jsfiles'] = js
 
 def single_element_insert_db(iform, obj):
     iform.populate_obj(obj)
+# // TO FIX:
+# Does not work as autoincrement
     # Id is supposed to exist, and also be autoincrement:
     obj.id = ''
     db.session.add(obj)

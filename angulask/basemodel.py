@@ -8,7 +8,7 @@ from datetime import datetime
 from config import user_config
 from collections import OrderedDict
 from flask import url_for, request
-from flask_table import Table, Col
+from flask_table import Table, Col, create_table
 from flask.ext.login import LoginManager
 from sqlalchemy import inspect
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -76,21 +76,12 @@ class AnchorCol(Col):
 
 class ItemTable(Table):
 
-    def thead(self):
-        return '<thead class="thead-default"><tr>{}</tr></thead>' \
-            .format(''.join((self.th(col_key, col)
-                    for col_key, col in self._cols.items() if col.show)))
-
     def sort_url(self, col_key, reverse=False):
         if reverse:
             direction = 'desc'
         else:
             direction = 'asc'
         return url_for(request.endpoint, sort=col_key, direction=direction)
-
-
-def create_table(name):
-    return type(name, (ItemTable,), {})
 
 
 def model2list(obj):
@@ -104,7 +95,7 @@ def model2table(obj, selected):
     """ Give me an SQLALCHEMY obj to get an HTML table """
 
     table_name = 'Table' + obj.__name__
-    TableCls = create_table(table_name)
+    TableCls = create_table(table_name, base=ItemTable)
     mapper = inspect(obj)
 
     for column in mapper.attrs:
@@ -120,6 +111,7 @@ def model2table(obj, selected):
             TableCls.add_column(column.key, Col(colname))
 
     TableCls.classes = ['table', 'table-hover']
+    TableCls.thead_classes = ["thead-default"]
     TableCls.allow_sort = True
 
     return TableCls
