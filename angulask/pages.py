@@ -13,11 +13,9 @@ from werkzeug import secure_filename
 from .basemodel import db, lm, create_table, Col, \
     User, MyModel, MyTable, \
     user_config, insertable, selected
-from app import forms
-
+from . import forms
 
 cms = Blueprint('pages', __name__)
-
 
 # ######################################################
 # #http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/#caching-decorator
@@ -42,6 +40,8 @@ cms = Blueprint('pages', __name__)
 
 def single_element_insert_db(iform, obj):
     iform.populate_obj(obj)
+    # Id is supposed to exist, and also be autoincrement:
+    obj.id = ''
     db.session.add(obj)
     db.session.commit()
 

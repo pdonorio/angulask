@@ -30,10 +30,9 @@ irods:
   tty: true
 
 #########################################
-## FLASK CMS
-# https://github.com/pdonorio/dockerizing/blob/master/python/nginx_uwsgi
+## LINKING EXPERIMENT
 
-flask:
+experiment:
     image: pdonorio/flaskrods
     # DEBUG!
     #command: sleep 1234567890
@@ -47,6 +46,20 @@ flask:
     links:
         - graph:neo
         - irods:rodserver
+
+#########################################
+## FLASK CMS
+
+# if working with uwsgi
+# https://github.com/pdonorio/dockerizing/blob/master/python/nginx_uwsgi
+
+flask:
+    image: pdonorio/flasking
+    command: sleep 123456789
+    volumes:
+        - ..:/data
+    ports:
+        - 80:5000
 
 #########################################
 ## NODEjs

@@ -126,7 +126,7 @@ def model2table(obj, selected):
 
 ##################################################
 # WHERE THE MAGIC HAPPENS: dynamic models, and tables
-package = 'app.models.' + user_config['models']['module']
+package = __package__ + '.models.' + user_config['models']['module']
 module = importlib.import_module(package)
 selected_model = user_config['models'].get('model', 'MyModel')
 MyModel = getattr(module, selected_model)

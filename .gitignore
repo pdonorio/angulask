@@ -4,6 +4,9 @@
 # static/gulp
 # static/node_modules
 
+# SQL lite dbs
+config/*.db
+
 # Temporary and binary files
 *~
 *.py[cod]

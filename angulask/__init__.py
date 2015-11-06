@@ -9,11 +9,7 @@ import csv
 from flask import Flask, request as req
 from sqlalchemy import inspect
 from .pages import cms
-from .basemodel import db, lm, User
-
-# // TO FIX:
-# Make this DYNAMIC
-from .models.mo import MyModel
+from .basemodel import db, lm, User, MyModel
 
 config = {
     "development": "config.DevelopmentConfig",

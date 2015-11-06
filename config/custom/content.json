@@ -1,0 +1,15 @@
+{
+    "project": "OMDB",
+    "menus": [ "home", "view", "about" ],
+    "title": " <b>OM</b> <i>database</i> <br>Osteocondromi Multipli",
+	"subtitle": "Valutazione tramite high-throughput data mining dell’eterogeneità clinica e molecolare <br> in pazienti affetti da Osteocondromi Multipli",
+    "logos": [
+        {"src": "static/img/main.png", "width": "180"},
+        {"src": "static/img/logo.png", "width": "350"}
+    ],
+    "topbar_color": "D4E9FF",
+    "username": "rprototype",
+    "password": "rizzolicineca",
+    "home_content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "about": "<div class='page-header'> <h1>About Page</h1> </div> <p class='lead'>This is just a placeholder page which should be replaced with real content.</p> <div class='card'> <div class='card-block'> <h4 class='card-title'>Card title</h4> <p class='card-text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tellus ligula, imperdiet id lobortis sit amet, scelerisque non sapien. Duis quis dui quis mauris dapibus fringilla. Pellentesque nec tellus ac diam volutpat malesuada.</p> <p class='card-text'><small class='text-muted'>Last updated 3 mins ago</small></p> </div> <img class='card-img-bottom' src='http://placehold.it/600x100'> </div> <p>In quam arcu, interdum vel arcu viverra, vulputate convallis massa. Sed hendrerit velit a arcu euismod, sit amet consequat lacus imperdiet. Nullam quis dui sapien. Vestibulum placerat, justo non fringilla laoreet, dui ipsum posuere nisi, nec vestibulum eros leo ut sapien.</p> <p>Integer elementum malesuada dolor in aliquet.</p>"
+}

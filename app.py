@@ -4,7 +4,7 @@
 """ Flask application main file """
 
 # Import app factory
-from app import create_app
+from angulask import create_app
 # Choose configuration
 from config import DevelopmentConfig
 # Create the flask application object
