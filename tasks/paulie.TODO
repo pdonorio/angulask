@@ -13,11 +13,14 @@ RESOURCES:
 https://github.com/shea256/angular-flask
 https://github.com/shea256/flask-app-generator
 
-angular html5 mode
+ ☐ angular html5 mode
 http://stackoverflow.com/questions/16677528/location-switching-between-html5-and-hashbang-mode-link-rewriting
-flask routing
+ ☐ flask routing
 https://www.codementor.io/tips/7712834638/tips-in-integrating-flask-and-angular-routing
 http://www.dahuatu.com/aPwolAO7W8.html
+ ☐ angular access to URL via @location
+ https://docs.angularjs.org/guide/$location
+ http://stackoverflow.com/a/19481865
 --- ✄ -----------------------
 
 Completed:
