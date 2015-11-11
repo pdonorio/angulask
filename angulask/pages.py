@@ -329,5 +329,5 @@ def upload(id):
 @login_required
 def angular(some=None):
     template = 'angularviews/experiment.html'
-    print("\n\n", dir(request), request.host, "\n\n")
-    return render_template(template, **user_config['content'])
+    return render_template(template, mydomain=request.url_root,
+                           **user_config['content'])

@@ -9,7 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 <!-- /meta -->
-    <base href="http://awesome.dev/"/>
+{% if mydomain %}
+    <!-- needed by angular location routing -->
+    <base href="{{ mydomain }}"/>
+{% endif %}
 
     <title>{{ project }}: {% block title %}{% endblock %}</title>
 
