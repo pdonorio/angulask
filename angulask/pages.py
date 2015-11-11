@@ -22,7 +22,6 @@ bowerdir = staticdir + 'bower/'
 css = [
     bowerdir + "font-awesome/css/font-awesome.min.css",
     bowerdir + "bootstrap/dist/css/bootstrap.min.css",
-    bowerdir + "angular-toastr/dist/angular-toastr.min.css",
     bowerdir + "animate.css/animate.min.css",
     staticdir + "css/custom.css"
 ]
@@ -325,8 +324,10 @@ def upload(id):
 
 
 ######################################################
-@cms.route('/angular', methods=["GET", "POST"])
+@cms.route('/angular/', methods=["GET", "POST"])
+@cms.route('/angular/<some>', methods=["GET", "POST"])
 @login_required
-def angular():
+def angular(some=None):
     template = 'angularviews/experiment.html'
+    print("\n\n", dir(request), request.host, "\n\n")
     return render_template(template, **user_config['content'])

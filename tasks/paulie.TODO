@@ -1,12 +1,13 @@
 
 Doing:
   ✔ add angular page @done (15-11-06 13:56)
+  ☐ Routing
+    ☐ dynamic python base (in index head)
+  ☐ Automatize the adding of a single page/model @hard
+    ☐ REST
+  http://blog.luisrei.com/articles/flaskrest.html
   ☐ fix bootstrap template
     ☐ remove bootstrap4 cards
-
-  ☐ Automatize the adding of a single page/model @hard
-  ☐ REST
-  http://blog.luisrei.com/articles/flaskrest.html
 
 RESOURCES:
   people are doing like us

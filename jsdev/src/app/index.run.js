@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function runBlock($log) {
-    $log.debug('test debug');
+    $log.debug('Block inside main');
   }
 
 })();
