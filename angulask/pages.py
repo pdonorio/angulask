@@ -36,7 +36,7 @@ js = [
     bowerdir + "angular-animate/angular-animate.min.js",
     bowerdir + "angular-cookies/angular-cookies.min.js",
     bowerdir + "angular-sanitize/angular-sanitize.min.js",
-    bowerdir + "angular-ui-router.min.js",
+    bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
     bowerdir + "lodash/lodash.min.js",
     bowerdir + "restangular/dist/restangular.min.js",
     bowerdir + "angular-strap/dist/angular-strap.min.js",
