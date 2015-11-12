@@ -42,7 +42,7 @@ experiment:
         - ./hello.py:/app/run.py
         - ./irodsconf:/root/.irods
     ports:
-        - 80:80
+        - 8000:80
     links:
         - graph:neo
         - irods:rodserver
@@ -65,6 +65,25 @@ flask:
         - ../jsdev/src/app:/data/angulask/static/app
     ports:
         - 80:5000
+
+noglitches:
+    image: pdonorio/flask_nginx_uwsgi
+    command: /boot.sh production
+    volumes:
+        # Configuration
+        - ./nginx.conf:/etc/nginx/sites-available/default
+        - ./uwsgi.txt:/etc/uwsgi/vassals/uwsgi.ini
+        # Booting
+        - ./boot.sh:/boot.sh
+        # App
+        - ../app.py:/app/run.py
+        - ../config:/app/config
+        - ../angulask:/app/angulask
+        - ../angulask/static:/app/static
+        - ../jsdev/bower_components:/app/static/bower
+        - ../jsdev/src/app:/app/static/app
+    ports:
+        - 90:80
 
 #########################################
 ## NODEjs
