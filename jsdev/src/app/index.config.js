@@ -6,7 +6,7 @@
     function config($logProvider, $locationProvider, $interpolateProvider,
         $stateProvider, $urlRouterProvider) {
     	// Enable log
-    	$logProvider.debugEnabled(true);
+    	$logProvider.debugEnabled(true); //.hashPrefix('!');
     	// HTML5 mode: remove hash bang to let url be parsable
     	//$locationProvider.html5Mode(true);
         // Change angular variables from {{}} to [[]]
@@ -20,7 +20,7 @@
                 url: "/",
                 views: {
                     "main": {
-                        template: 'Home page',
+                        template: 'Home page<br>Go to <a ui-sref="data">link</a>.',
                     }
                 },
             })

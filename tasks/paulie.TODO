@@ -9,7 +9,9 @@ Doing:
  ✔ angular access to URL via @location @done (15-11-12 09:21)
  ✔ flask routing @done (15-11-12 09:30)
  ☐ Why js variables are so slow to be defined?
+ https://docs.angularjs.org/api/ng/directive/ngCloak
  ☐ Could there be an angular routing working in html5 mode with flask?
+ We don't know yet
 #9
 ---- ✄ -----------------------
   ☐ Automatize the adding of a single page/model @hard
