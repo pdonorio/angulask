@@ -30,6 +30,7 @@ js = [
     bowerdir + "angular-animate/angular-animate.min.js",
     bowerdir + "angular-cookies/angular-cookies.min.js",
     bowerdir + "angular-sanitize/angular-sanitize.min.js",
+    bowerdir + "angular-ui-router.min.js",
     bowerdir + "lodash/lodash.min.js",
     bowerdir + "restangular/dist/restangular.min.js",
     bowerdir + "angular-strap/dist/angular-strap.min.js",
@@ -325,10 +326,33 @@ def upload(id):
 
 ######################################################
 myroute = 'angular'
+
+
 @cms.route('/' + myroute + '/', methods=["GET", "POST"])
 @cms.route('/' + myroute + '/<path:mypath>', methods=["GET", "POST"])
 @login_required
 def angular(mypath=None):
     template = 'angularviews/experiment.html'
-    return render_template(template, mydomain=request.url_root + myroute,
+
+############################
+# Dirty fix for URL BASE in angular HTML5mode
+
+    if request.url_root not in user_config['content']['stylesheets'][0]:
+        # FIX CSS
+        new = []
+        tmp = user_config['content']['stylesheets']
+        for x in tmp:
+            new.append(request.url_root + x)
+        user_config['content']['stylesheets'] = new
+        # FIX JS
+        new = []
+        tmp = user_config['content']['jsfiles']
+        for x in tmp:
+            new.append(request.url_root + x)
+        user_config['content']['jsfiles'] = new
+
+# Dirty fix for URL BASE in angular HTML5mode
+############################
+
+    return render_template(template, mydomain='/' + myroute + '/',
                            **user_config['content'])
