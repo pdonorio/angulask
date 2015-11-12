@@ -17,14 +17,20 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 
 cms = Blueprint('pages', __name__)
+
+# Static things
 staticdir = 'static/'
 bowerdir = staticdir + 'bower/'
+
+# CSS files
 css = [
     bowerdir + "font-awesome/css/font-awesome.min.css",
     bowerdir + "bootstrap/dist/css/bootstrap.min.css",
     bowerdir + "animate.css/animate.min.css",
     staticdir + "css/custom.css"
 ]
+
+# Angular framework and app files
 js = [
     bowerdir + "angular/angular.min.js",
     bowerdir + "angular-animate/angular-animate.min.js",
@@ -36,9 +42,15 @@ js = [
     bowerdir + "angular-strap/dist/angular-strap.min.js",
     bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
     bowerdir + "moment/min/moment.min.js",
-    # Force order: the angularjs app declaration
+    # Force order: the angularjs app declaration should be the first
     staticdir + "app/app.js",
 ]
+
+# Images
+if 'logos' not in user_config['content']:
+    user_config['content']['logos'] = [{
+        "src": "static/img/default.png", "width": '90'
+    }]
 
 # Dynamically load all other angularjs files
 prefix = __package__
@@ -148,6 +160,8 @@ def view(id=None):
             items.append(final)
     # NORMAL VIEW (all elements)
     ####################################################
+
+    print("\n\nTEST\n\n", user_config['content'])
 
     return render_template(template,
         status=status, formname='view', dbitems=items, id=id,
@@ -350,6 +364,14 @@ def angular(mypath=None):
         for x in tmp:
             new.append(request.url_root + x)
         user_config['content']['jsfiles'] = new
+        # FIX IMAGES
+        new = []
+        tmp = user_config['content']['logos']
+        for x in tmp:
+            new.append({
+                'src': request.url_root + x['src'],
+                'width': x['width']})
+        user_config['content']['logos'] = new
 
 # Dirty fix for URL BASE in angular HTML5mode
 ############################

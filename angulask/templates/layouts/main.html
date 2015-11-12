@@ -11,15 +11,10 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
   {% endif %}
 
-  {% if not logos %}
-  <a href="#" class="pull-right" style='padding-right:10px;'>
-    <img src="static/img/default.png" width="130"></a>
-  {% else %}
-      {% for logo in logos %}
-          <a href="#" class="pull-right" style='padding-right:10px;'>
-            <img src="{{ logo.src }}" width="{{ logo.width }}"></a>
-      {% endfor %}
-  {% endif %}
+  {% for logo in logos %}
+      <a href="#" class="pull-right" style='padding-right:10px;'>
+        <img src="{{ logo.src }}" width="{{ logo.width }}"></a>
+  {% endfor %}
 
   <a class="navbar-brand pull-left" href="/"> <i class="fa fa-briefcase"></i> {{ project }} </a>
 
