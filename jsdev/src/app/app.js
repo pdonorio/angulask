@@ -6,6 +6,7 @@
         'ngAnimate', 'ngCookies', 'ngSanitize',
         'restangular',
         'mgcrea.ngStrap',
+        'ui.router',
     ]);
 
 })();

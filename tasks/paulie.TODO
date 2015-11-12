@@ -1,13 +1,29 @@
 
 Doing:
   ✔ add angular page @done (15-11-06 13:56)
+---- ✄ -----------------------
+  ✔ Routing @done (15-11-11 22:51)
+    ✔ dynamic python base (in index head) @done (15-11-11 22:51)
+    ✔ example of subpath @done (15-11-11 22:51)
+ ✔ angular html5 mode @done (15-11-12 09:21)
+ ✔ angular access to URL via @location @done (15-11-12 09:21)
+ ✔ flask routing @done (15-11-12 09:30)
+ ☐ Why js variables are so slow to be defined?
+ https://docs.angularjs.org/api/ng/directive/ngCloak
+ ☐ Could there be an angular routing working in html5 mode with flask?
+ We don't know yet
+#9
+---- ✄ -----------------------
+  ☐ Automatize the adding of a single page/model @hard
+    ☐ REST
+  http://blog.luisrei.com/articles/flaskrest.html
   ☐ fix bootstrap template
     ☐ remove bootstrap4 cards
 
-  ☐ Automatize the adding of a single page/model @hard
-  ☐ REST
-  http://blog.luisrei.com/articles/flaskrest.html
-
+RESOURCES:
+  people are doing like us
+https://github.com/shea256/angular-flask
+https://github.com/shea256/flask-app-generator
 --- ✄ -----------------------
 
 Completed:

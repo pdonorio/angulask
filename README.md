@@ -7,12 +7,9 @@ A project to template flask web server to meet angularjs
 ```bash
 # Clone
 git clone https://github.com/pdonorio/angulask.git
-# Launch
+# Run (in debug mode)
 cd angulask/containers
-docker-compose up -d flask
-# Debug
-docker exec -it containers_flask_1 bash
-python3 app.py
+docker-compose up flask
 ```
 
 Then go visit http://localhost to access the web page
