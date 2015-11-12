@@ -39,7 +39,7 @@
             url: "/:id",
                 views: {
                     "id": {
-                        template: '<h1>id = {{id}}</h1>',
+                        template: '<h1>id = [[id]]</h1>',
                         controller: 'DataIDController',
 
                     }
