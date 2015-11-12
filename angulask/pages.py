@@ -325,9 +325,9 @@ def upload(id):
 
 ######################################################
 @cms.route('/angular/', methods=["GET", "POST"])
-@cms.route('/angular/<some>', methods=["GET", "POST"])
+@cms.route('/angular/<path:mypath>', methods=["GET", "POST"])
 @login_required
-def angular(some=None):
+def angular(mypath=None):
     template = 'angularviews/experiment.html'
     return render_template(template, mydomain=request.url_root,
                            **user_config['content'])

@@ -5,6 +5,12 @@ Doing:
   ✔ Routing @done (15-11-11 22:51)
     ✔ dynamic python base (in index head) @done (15-11-11 22:51)
     ✔ example of subpath @done (15-11-11 22:51)
+ ✔ angular html5 mode @done (15-11-12 09:21)
+ ✔ angular access to URL via @location @done (15-11-12 09:21)
+ ✔ flask routing @done (15-11-12 09:30)
+ ☐ Why js variables are so slow to be defined?
+ ☐ Are we killing our selves??
+ ☐ Could there be an angular routing working in html5 mode with flask?
 #9
 ---- ✄ -----------------------
   ☐ Automatize the adding of a single page/model @hard
@@ -17,15 +23,6 @@ RESOURCES:
   people are doing like us
 https://github.com/shea256/angular-flask
 https://github.com/shea256/flask-app-generator
-
- ☐ angular html5 mode
-http://stackoverflow.com/questions/16677528/location-switching-between-html5-and-hashbang-mode-link-rewriting
- ☐ flask routing
-https://www.codementor.io/tips/7712834638/tips-in-integrating-flask-and-angular-routing
-http://www.dahuatu.com/aPwolAO7W8.html
- ☐ angular access to URL via @location
- https://docs.angularjs.org/guide/$location
- http://stackoverflow.com/a/19481865
 --- ✄ -----------------------
 
 Completed:
