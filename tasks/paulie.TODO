@@ -16,17 +16,16 @@ REINSTALL:
  ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
   ✔ config enable + base (relative /mypath/) + make other links absolute @done (15-11-12 16:14)
  ✔ images problem @done (15-11-12 18:29)
-☐ angular ui-router via bower
+✔ angular ui-router via bower @done (15-11-12 19:14)
 ☐ Why js variables are so slow to be defined?
  https://docs.angularjs.org/api/ng/directive/ngCloak
 ---- ✄ -----------------------
 
-
   ☐ Automatize the adding of a single page/model @hard
-    ☐ REST
+    ☐ REST + rest plus?
   http://blog.luisrei.com/articles/flaskrest.html
   ☐ fix bootstrap template
-    ☐ remove bootstrap4 cards
+    ✔ remove bootstrap4 cards @done (15-11-12 19:16)
 
 RESOURCES:
   people are doing like us
