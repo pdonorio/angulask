@@ -3,6 +3,20 @@
 
   angular
     .module('web')
+
+.controller('DataController', function($scope, $state) {
+
+    console.log("TEST DATA")
+
+})
+
+.controller('DataIDController', function($scope, $state, $stateParams) {
+
+    $scope.id = $stateParams.id ;
+
+})
+
+
     .controller('MainController', MainController);
 
   /** @ngInject */
@@ -14,6 +28,7 @@
     $log.debug($location.$$url);
 */
     $scope.active = false;
+    $scope.variab = 'testing';
 
     $scope.route = {
         "angular": false,

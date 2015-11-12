@@ -20,8 +20,9 @@
             <img src="{{ logo.src }}" width="{{ logo.width }}"></a>
       {% endfor %}
   {% endif %}
-  <a class="navbar-brand pull-left" href="/">
-    <i class="fa fa-briefcase"></i> {{ project }} </a>
+
+  <a class="navbar-brand pull-left" href="/"> <i class="fa fa-briefcase"></i> {{ project }} </a>
+
   <ul class="nav navbar-nav">
     {% for menu in menus %}
     <li class="nav-item">
