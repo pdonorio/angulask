@@ -91,11 +91,10 @@ noglitches:
 
 bower:
     image: pdonorio/jsdev
+    command: sleep 1234567890
     working_dir: /web
     volumes:
         - ../jsdev:/web
-    tty: true
-    stdin_open: true
     ports:
         - 8080:3000
         - 8081:3001

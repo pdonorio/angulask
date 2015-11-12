@@ -8,12 +8,20 @@ Doing:
  ✔ angular html5 mode @done (15-11-12 09:21)
  ✔ angular access to URL via @location @done (15-11-12 09:21)
  ✔ flask routing @done (15-11-12 09:30)
- ☐ Why js variables are so slow to be defined?
- https://docs.angularjs.org/api/ng/directive/ngCloak
- ☐ Could there be an angular routing working in html5 mode with flask?
- We don't know yet
+
+REINSTALL:
+   REEDER
+
 #9
+ ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
+  ✔ config enable + base (relative /mypath/) + make other links absolute @done (15-11-12 16:14)
+ ✔ images problem @done (15-11-12 18:29)
+☐ angular ui-router via bower
+☐ Why js variables are so slow to be defined?
+ https://docs.angularjs.org/api/ng/directive/ngCloak
 ---- ✄ -----------------------
+
+
   ☐ Automatize the adding of a single page/model @hard
     ☐ REST
   http://blog.luisrei.com/articles/flaskrest.html

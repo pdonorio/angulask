@@ -7,13 +7,10 @@
         $stateProvider, $urlRouterProvider) {
     	// Enable log
     	$logProvider.debugEnabled(true); //.hashPrefix('!');
-    	// HTML5 mode: remove hash bang to let url be parsable
-    	//$locationProvider.html5Mode(true);
+        // HTML5 mode: remove hash bang to let url be parsable
+        $locationProvider.html5Mode(true);
         // Change angular variables from {{}} to [[]]
         $interpolateProvider.startSymbol('[[').endSymbol(']]');
-
-        //$urlRouterProvider.when('/app','/app/study');
-        //$urlRouterProvider.when('','/');
 
         $stateProvider
             .state('home', {
@@ -49,7 +46,7 @@
             });
 
 
-        //$urlRouterProvider.otherwise('/notfound');
+        $urlRouterProvider.otherwise('/notfound');
     }
 
 

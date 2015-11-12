@@ -11,26 +11,18 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
   {% endif %}
 
-  {% if not logos %}
-  <a href="#" class="pull-right" style='padding-right:10px;'>
-    <img src="static/img/default.png" width="130"></a>
-  {% else %}
-      {% for logo in logos %}
-          <a href="#" class="pull-right" style='padding-right:10px;'>
-            <img src="{{ logo.src }}" width="{{ logo.width }}"></a>
-      {% endfor %}
-  {% endif %}
+  {% for logo in logos %}
+      <a href="#" class="pull-right" style='padding-right:10px;'>
+        <img src="{{ logo.src }}" width="{{ logo.width }}"></a>
+  {% endfor %}
 
   <a class="navbar-brand pull-left" href="/"> <i class="fa fa-briefcase"></i> {{ project }} </a>
 
   <ul class="nav navbar-nav">
     {% for menu in menus %}
     <li class="nav-item">
-        {% if menu == 'angular' %}
-        <a class="nav-link" href="{{ url_for('.' + menu) }}#/"> {{ menu.capitalize() }} </a>
-        {% else %}
-        <a class="nav-link" href="{{ url_for('.' + menu) }}"> {{ menu.capitalize() }} </a>
-        {% endif %}
+        <a class="nav-link" href="{{ url_for('.' + menu) }}">
+            {{ menu.capitalize() }} </a>
     </li>
     {% endfor %}
     {% if g.user.is_authenticated %}

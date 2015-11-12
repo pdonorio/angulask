@@ -17,27 +17,40 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 
 cms = Blueprint('pages', __name__)
+
+# Static things
 staticdir = 'static/'
 bowerdir = staticdir + 'bower/'
+
+# CSS files
 css = [
     bowerdir + "font-awesome/css/font-awesome.min.css",
     bowerdir + "bootstrap/dist/css/bootstrap.min.css",
     bowerdir + "animate.css/animate.min.css",
     staticdir + "css/custom.css"
 ]
+
+# Angular framework and app files
 js = [
     bowerdir + "angular/angular.min.js",
     bowerdir + "angular-animate/angular-animate.min.js",
     bowerdir + "angular-cookies/angular-cookies.min.js",
     bowerdir + "angular-sanitize/angular-sanitize.min.js",
+    bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
     bowerdir + "lodash/lodash.min.js",
     bowerdir + "restangular/dist/restangular.min.js",
     bowerdir + "angular-strap/dist/angular-strap.min.js",
     bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
     bowerdir + "moment/min/moment.min.js",
-    # Force order: the angularjs app declaration
+    # Force order: the angularjs app declaration should be the first
     staticdir + "app/app.js",
 ]
+
+# Images
+if 'logos' not in user_config['content']:
+    user_config['content']['logos'] = [{
+        "src": "static/img/default.png", "width": '90'
+    }]
 
 # Dynamically load all other angularjs files
 prefix = __package__
@@ -147,6 +160,8 @@ def view(id=None):
             items.append(final)
     # NORMAL VIEW (all elements)
     ####################################################
+
+    print("\n\nTEST\n\n", user_config['content'])
 
     return render_template(template,
         status=status, formname='view', dbitems=items, id=id,
@@ -325,10 +340,41 @@ def upload(id):
 
 ######################################################
 myroute = 'angular'
+
+
 @cms.route('/' + myroute + '/', methods=["GET", "POST"])
 @cms.route('/' + myroute + '/<path:mypath>', methods=["GET", "POST"])
 @login_required
 def angular(mypath=None):
     template = 'angularviews/experiment.html'
-    return render_template(template, mydomain=request.url_root + myroute,
+
+############################
+# Dirty fix for URL BASE in angular HTML5mode
+
+    if request.url_root not in user_config['content']['stylesheets'][0]:
+        # FIX CSS
+        new = []
+        tmp = user_config['content']['stylesheets']
+        for x in tmp:
+            new.append(request.url_root + x)
+        user_config['content']['stylesheets'] = new
+        # FIX JS
+        new = []
+        tmp = user_config['content']['jsfiles']
+        for x in tmp:
+            new.append(request.url_root + x)
+        user_config['content']['jsfiles'] = new
+        # FIX IMAGES
+        new = []
+        tmp = user_config['content']['logos']
+        for x in tmp:
+            new.append({
+                'src': request.url_root + x['src'],
+                'width': x['width']})
+        user_config['content']['logos'] = new
+
+# Dirty fix for URL BASE in angular HTML5mode
+############################
+
+    return render_template(template, mydomain='/' + myroute + '/',
                            **user_config['content'])
