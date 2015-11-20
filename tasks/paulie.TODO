@@ -8,9 +8,8 @@ Doing:
  ✔ angular html5 mode @done (15-11-12 09:21)
  ✔ angular access to URL via @location @done (15-11-12 09:21)
  ✔ flask routing @done (15-11-12 09:30)
-
-REINSTALL:
-   REEDER
+ ☐ How to quickly add a blueprint for a whole new suburl
+http://flask.pocoo.org/snippets/59/
 
 #9
  ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
