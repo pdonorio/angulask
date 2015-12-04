@@ -250,43 +250,82 @@ def before_request():
     g.user = current_user
 
 
-@cms.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('.home'))
-
 
 @cms.route('/login', methods=['GET', 'POST'])
 def login():
 
     if request.method == 'GET':
         return render_template('forms/newlogin.html', **user_config['content'])
+
+    # IF POST
+
     username = request.form['username']
     password = request.form['password']
-    registered_user = User.query.filter_by(username=username,
-        password=password).first()
 
-    print("\n\nUSER*%s*%s*" % (username, password))
-    print(registered_user)
-    print("\n\n")
-    if registered_user is None:
+##############
+
+    import requests
+    import simplejson as json
+
+    NODE = 'myapi'
+    PORT = 5000
+
+    URL = 'http://%s:%s' % (NODE, PORT)
+    LOGIN_URL = URL + '/api/login'
+    HEADERS = {'content-type': 'application/json'}
+    payload = {'email': username, 'password': password}
+
+    # http://mandarvaze.github.io/2015/01/token-auth-with-flask-security.html
+    r = requests.post(LOGIN_URL, data=json.dumps(payload), headers=HEADERS, timeout=5)
+    if True:
+    # if registered_user is None:
         flash('Username or Password is invalid', 'danger')
+        flash(r.json())
+
+# OK
+# If {'response': {'user': {'authentication_token':  AND 'meta': {'code': 200}}
+
+# BAD
+# {'response': {'errors': {'email': ['Specified user does not exist']}}, 'meta': {'code': 400}}
+
         return redirect(url_for('.login'))
-    login_user(registered_user)
+
+##############
+# OLD
+    # registered_user = User.query.filter_by(username=username,
+    #                                        password=password).first()
+
+    # print("\n\nUSER*%s*%s*" % (username, password))
+    # print(registered_user)
+    # print("\n\n")
+    # if registered_user is None:
+    #     flash('Username or Password is invalid', 'danger')
+    #     return redirect(url_for('.login'))
+    # login_user(registered_user)
+##############
+
     flash('Logged in successfully')
     return redirect(request.args.get('next') or url_for('.view'))
 
 
-@cms.route('/register')
-def register():
-    form = forms.RegisterForm(request.form)
-    return render_template('forms/register.html', form=form)
+################################################
+# # REIMPLEMENT
+# @cms.route('/register')
+# def register():
+#     form = forms.RegisterForm(request.form)
+#     return render_template('forms/register.html', form=form)
 
 
-@cms.route('/forgot')
-def forgot():
-    form = forms.ForgotForm(request.form)
-    return render_template('forms/forgot.html', form=form)
+# @cms.route('/forgot')
+# def forgot():
+#     form = forms.ForgotForm(request.form)
+#     return render_template('forms/forgot.html', form=form)
+
+# @cms.route('/logout')
+# def logout():
+#     logout_user()
+#     return redirect(url_for('.home'))
+################################################
 
 
 ################
