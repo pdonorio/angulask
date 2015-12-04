@@ -29,3 +29,15 @@ Default account:
 
 * Username: 'prototype'
 * Password: 'test'
+
+
+## Bower configuration
+
+To download required js and css libaries via bower:
+
+```
+cd angulask/containers
+docker-compose up -d bower
+docker-compose run bower "npm install && bower install"
+docker-compose stop
+```

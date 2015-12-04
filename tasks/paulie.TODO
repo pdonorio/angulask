@@ -1,35 +1,32 @@
 
 Doing:
-  ✔ add angular page @done (15-11-06 13:56)
----- ✄ -----------------------
-  ✔ Routing @done (15-11-11 22:51)
-    ✔ dynamic python base (in index head) @done (15-11-11 22:51)
-    ✔ example of subpath @done (15-11-11 22:51)
- ✔ angular html5 mode @done (15-11-12 09:21)
- ✔ angular access to URL via @location @done (15-11-12 09:21)
- ✔ flask routing @done (15-11-12 09:30)
-
-REINSTALL:
-   REEDER
-
 #9
- ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
-  ✔ config enable + base (relative /mypath/) + make other links absolute @done (15-11-12 16:14)
- ✔ images problem @done (15-11-12 18:29)
-☐ angular ui-router via bower
 ☐ Why js variables are so slow to be defined?
+ ☐ ngcloak?
  https://docs.angularjs.org/api/ng/directive/ngCloak
 ---- ✄ -----------------------
-
-
   ☐ Automatize the adding of a single page/model @hard
-    ☐ REST
+    ☐ REST + rest plus?
   http://blog.luisrei.com/articles/flaskrest.html
   ☐ fix bootstrap template
-    ☐ remove bootstrap4 cards
+    ✔ remove bootstrap4 cards @done (15-11-12 19:16)
+  ☐ switch to materialize
+
+
+---- ✄ -----------------------
+ ☐ graphdb can be set a password from variable:  NEO4J_AUTH = neo4j/<password>
+ https://hub.docker.com/_/neo4j/
+ ☐ irods and graphdb should be easily pluggable
+   ☐ import of a whole directory?
+   ☐ configure endpoint files from absolute path/directory?
+     ☐ security?
+
 
 RESOURCES:
-  people are doing like us
+ How to quickly add a blueprint for a whole new suburl
+http://flask.pocoo.org/snippets/59/
+
+PEOPLE WHO ARE ALSO DOING THINGS LIKE US
 https://github.com/shea256/angular-flask
 https://github.com/shea256/flask-app-generator
 --- ✄ -----------------------
@@ -42,3 +39,14 @@ Completed:
       ✘ or create new one @cancelled (15-11-06 12:48)
   ✔ mix with gulp skeleton @done (15-11-06 12:48)
     ✔ link bower_components @done (15-11-06 10:54)
+  ✔ add angular page @done (15-11-06 13:56)
+  ✔ Routing @done (15-11-11 22:51)
+    ✔ dynamic python base (in index head) @done (15-11-11 22:51)
+    ✔ example of subpath @done (15-11-11 22:51)
+ ✔ angular html5 mode @done (15-11-12 09:21)
+ ✔ angular access to URL via @location @done (15-11-12 09:21)
+ ✔ flask routing @done (15-11-12 09:30)
+ ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
+  ✔ config enable + base (relative /mypath/) + make other links absolute @done (15-11-12 16:14)
+ ✔ images problem @done (15-11-12 18:29)
+✔ angular ui-router via bower @done (15-11-12 19:14)
