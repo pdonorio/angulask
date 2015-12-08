@@ -56,7 +56,11 @@ def init_insert(db, userconfig):
 
 def create_app():
     """ Create the istance for Flask application """
-    app = Flask(__name__)
+
+    # Create a FLASK application
+    app = Flask(__name__)  # , static_url_path='')
+    # Note: since the app is defined inside this file,
+    # the static dir will be searched inside this subdirectory
 
     # Apply configuration
     config_name = os.getenv('FLASK_CONFIGURATION', 'default')
@@ -101,7 +105,7 @@ def create_app():
     @app.after_request
     def log_response(resp):
         app.logger.info("{} {} {}\n{}".format(
-            req.method,req.url,req.data,resp))
+                        req.method, req.url, req.data, resp))
         return resp
 
     return app
