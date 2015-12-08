@@ -321,10 +321,10 @@ def login():
 #     form = forms.ForgotForm(request.form)
 #     return render_template('forms/forgot.html', form=form)
 
-# @cms.route('/logout')
-# def logout():
-#     logout_user()
-#     return redirect(url_for('.home'))
+@cms.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('.home'))
 ################################################
 
 
