@@ -1,51 +1,51 @@
 
-#########################################
-## GRAPHDB
-# https://github.com/neo4j/docker-neo4j
+# #########################################
+# ## GRAPHDB
+# # https://github.com/neo4j/docker-neo4j
 
-graph:
-    image: neo4j/neo4j:2.3.0
-# The default configuration provided by this image is intended for learning about Neo4j, but must be modified to make it suitable for production use. In particular the memory assigned to Neo4j is very limited (see NEO4J_CACHE_MEMORY and NEO4J_HEAP_MEMORY below), to allow multiple containers to be run on the same server. You can read more about configuring Neo4j in the manual.
-    hostname: neo
-    ports:
-        - 7777:7474/tcp
-    restart: 'no'
-# REMOVE ME IN PRODUCTION
-    # environment:
-    #     NEO4J_AUTH: none # No passw for development
-# REMOVE ME IN PRODUCTION
-    cap_add:
-        - SYS_RESOURCE
+# graph:
+#     image: neo4j/neo4j:2.3.0
+# # The default configuration provided by this image is intended for learning about Neo4j, but must be modified to make it suitable for production use. In particular the memory assigned to Neo4j is very limited (see NEO4J_CACHE_MEMORY and NEO4J_HEAP_MEMORY below), to allow multiple containers to be run on the same server. You can read more about configuring Neo4j in the manual.
+#     hostname: neo
+#     ports:
+#         - 7777:7474/tcp
+#     restart: 'no'
+# # REMOVE ME IN PRODUCTION
+#     # environment:
+#     #     NEO4J_AUTH: none # No passw for development
+# # REMOVE ME IN PRODUCTION
+#     cap_add:
+#         - SYS_RESOURCE
 
-########################################
-## IRODS server
-#http://irods.org/post/irods-on-docker-update/#.Vji91TbhCV4
+# ########################################
+# ## IRODS server
+# #http://irods.org/post/irods-on-docker-update/#.Vji91TbhCV4
 
-irods:
-  image: irods/icat:4.0.3
-  hostname: rodserver
-  command: test
-  ports:
-      - 1247/tcp
-  tty: true
+# irods:
+#   image: irods/icat:4.0.3
+#   hostname: rodserver
+#   command: test
+#   ports:
+#       - 1247/tcp
+#   tty: true
 
-#########################################
-## LINKING EXPERIMENT
+# #########################################
+# ## LINKING EXPERIMENT
 
-experiment:
-    image: pdonorio/flaskrods
-    # DEBUG!
-    #command: sleep 1234567890
-    command: /boot.sh
-    volumes:
-        - ./boot.sh:/boot.sh
-        - ./hello.py:/app/run.py
-        - ./irodsconf:/root/.irods
-    ports:
-        - 8000:80
-    links:
-        - graph:neo
-        - irods:rodserver
+# experiment:
+#     image: pdonorio/flaskrods
+#     # DEBUG!
+#     #command: sleep 1234567890
+#     command: /boot.sh
+#     volumes:
+#         - ../boot:/boot.sh
+#         - ./hello.py:/app/run.py
+#         - ./irodsconf:/root/.irods
+#     ports:
+#         - 8000:80
+#     links:
+#         - graph:neo
+#         - irods:rodserver
 
 #########################################
 ## FLASK CMS
@@ -55,10 +55,7 @@ experiment:
 
 flask:
     image: pdonorio/flasking
-    command: ./app.py
-    #command: sleep 1234567890
-    environment:
-        FLASK_CONFIGURATION: development
+    command: ./boot
     volumes:
         - ..:/data
         - ../jsdev/bower_components:/data/angulask/static/bower
@@ -66,35 +63,35 @@ flask:
     ports:
         - 80:5000
 
-noglitches:
-    image: pdonorio/flask_nginx_uwsgi
-    command: /boot.sh production
-    volumes:
-        # Configuration
-        - ./nginx.conf:/etc/nginx/sites-available/default
-        - ./uwsgi.txt:/etc/uwsgi/vassals/uwsgi.ini
-        # Booting
-        - ./boot.sh:/boot.sh
-        # App
-        - ../app.py:/app/run.py
-        - ../config:/app/config
-        - ../angulask:/app/angulask
-        - ../angulask/static:/app/static
-        - ../jsdev/bower_components:/app/static/bower
-        - ../jsdev/src/app:/app/static/app
-    ports:
-        - 90:80
+# noglitches:
+#     image: pdonorio/flask_nginx_uwsgi
+#     command: /boot.sh production
+#     volumes:
+#         # Configuration
+#         - ./nginx.conf:/etc/nginx/sites-available/default
+#         - ./uwsgi.txt:/etc/uwsgi/vassals/uwsgi.ini
+#         # Booting
+#         - ./boot.sh:/boot.sh
+#         # App
+#         - ../app.py:/app/run.py
+#         - ../config:/app/config
+#         - ../angulask:/app/angulask
+#         - ../angulask/static:/app/static
+#         - ../jsdev/bower_components:/app/static/bower
+#         - ../jsdev/src/app:/app/static/app
+#     ports:
+#         - 90:80
 
-#########################################
-## NODEjs
-# https://github.com/pdonorio/dockerizing/blob/master/js/node/Dockerfile
+# #########################################
+# ## NODEjs
+# # https://github.com/pdonorio/dockerizing/blob/master/js/node/Dockerfile
 
-bower:
-    image: pdonorio/jsdev
-    command: sleep 1234567890
-    working_dir: /web
-    volumes:
-        - ../jsdev:/web
-    ports:
-        - 8080:3000
-        - 8081:3001
+# bower:
+#     image: pdonorio/jsdev
+#     command: sleep 1234567890
+#     working_dir: /web
+#     volumes:
+#         - ../jsdev:/web
+#     ports:
+#         - 8080:3000
+#         - 8081:3001

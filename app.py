@@ -12,4 +12,5 @@ app = create_app()
 if __name__ == '__main__':
     host = app.config.get("HOST")
     port = app.config.get("PORT")
-    app.run(host=host, port=port)
+    debug = app.config.get("DEBUG")
+    app.run(host=host, port=port, debug=debug)

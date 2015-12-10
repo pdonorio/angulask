@@ -9,7 +9,7 @@ from . import BaseConfig
 
 class MyConfig(BaseConfig):
 
-    DEBUG = True
+    DEBUG = os.environ.get('APP_DEBUG', False)
     HOST = '0.0.0.0'
     WTF_CSRF_SECRET_KEY = 'a random string'
 
