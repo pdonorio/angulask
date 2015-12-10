@@ -22,6 +22,11 @@ cms = Blueprint('pages', __name__)
 staticdir = 'static/'
 bowerdir = staticdir + 'bower/'
 
+############################
+# // TO FIX:
+# ## This should depend on the chosen framework:
+# ## Bootstrap, Foundation or Material
+
 # CSS files
 css = [
     bowerdir + "font-awesome/css/font-awesome.min.css",
@@ -29,6 +34,7 @@ css = [
     bowerdir + "animate.css/animate.min.css",
     staticdir + "css/custom.css"
 ]
+############################
 
 # Angular framework and app files
 js = [
@@ -52,6 +58,9 @@ if 'logos' not in user_config['content']:
         "src": "static/img/default.png", "width": '90'
     }]
 
+############################
+# // TO FIX:
+# ## This should load only a specified angular blueprint
 # Dynamically load all other angularjs files
 prefix = __package__
 for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
@@ -59,6 +68,8 @@ for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
     jfile = strfile[len(prefix)+1:]
     if jfile not in js:
         js.append(jfile)
+# // TO FIX -END
+############################
 
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js

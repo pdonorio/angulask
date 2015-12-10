@@ -1,17 +1,17 @@
 
-Doing:
-#9
-☐ Why js variables are so slow to be defined?
- ☐ ngcloak?
- https://docs.angularjs.org/api/ng/directive/ngCloak
----- ✄ -----------------------
-  ☐ Automatize the adding of a single page/model @hard
-    ☐ REST + rest plus?
+TO DO:
+
+☐ Automatize the adding of a single page/model
   http://blog.luisrei.com/articles/flaskrest.html
-  ☐ fix bootstrap template
-    ✔ remove bootstrap4 cards @done (15-11-12 19:16)
+  ☐ python module with a blueprint
+    ☐ also an ini file which says which file and which blueprint
+    ☐ and also which template directory? uhm
+☐ Angular blueprint load
+☐ CSS framework choise
   ☐ switch to materialize
 
+☐ Why js variables are so slow to be defined?
+ ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak
 
 ---- ✄ -----------------------
  ☐ graphdb can be set a password from variable:  NEO4J_AUTH = neo4j/<password>
