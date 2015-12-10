@@ -14,6 +14,7 @@ from .basemodel import db, lm, User, MyModel
 config = {
     "default": "config.BaseConfig",
     "development": "config.devel.MyConfig",
+    "production": "config.prod.MyConfig",
     # "testing": "bookshelf.config.TestingConfig",
 }
 

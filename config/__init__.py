@@ -35,7 +35,7 @@ user_config = read_files(PATH)
 ########################################
 class BaseConfig(object):
 
-    DEBUG = False
+    DEBUG = os.environ.get('APP_DEBUG', False)
     TESTING = False
     MYCONFIG_PATH = os.path.join(CONFIG_PATH, PATH)
 

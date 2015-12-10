@@ -1,17 +1,17 @@
 #!/bin/bash
 
-main_command="./app.py"
+main_command=" ./app.py"
 
 if [ "$APP_MODE" == "debug" ]; then
     echo "[=== DEBUG MODE ===]"
     sleep infinity
 elif [ "$APP_MODE" == "development" ]; then
     echo "Development"
-    APP_DEBUG="true" $main_command
+    FLASK_CONFIGURATION="$APP_MODE" APP_DEBUG="true" $main_command
 else
     echo "Production !"
 ## NGINX + WSGI?
-    $main_command
+    FLASK_CONFIGURATION="$APP_MODE" $main_command
 fi
 
 
