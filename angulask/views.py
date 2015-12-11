@@ -6,21 +6,34 @@ Rest view implementation
 """
 
 from __future__ import absolute_import
+import os
 from . import htmlcodes as hc
 from flask import Blueprint, render_template, make_response
 from jinja2 import TemplateNotFound
 from flask_restful import Api, Resource
 
+CUSTOM_TEMPLATES = os.path.join(
+    os.path.abspath(os.path.dirname(__file__)),
+    'templates',
+    'custom')
+
 
 #########################
 # Use restful plugin
-def generate_blueprint(name='someviews', folder='templates', classes=[]):
+def generate_blueprint(module='module.someviews', classes=[]):
     """ Using restful blueprint for all classes """
-    # Add resources
-    bp = Blueprint(name, __name__, template_folder=folder)
+
+    # Recovering the right path for custom templates
+    rev = module[::-1]
+    name = rev[:rev.index('.')][::-1]
+    path = os.path.join(CUSTOM_TEMPLATES, name)
+    # Restful blueprint
+    bp = Blueprint(name, __name__, template_folder=path)
     rest = Api(bp)
+    # Add resources
     for view in classes:
         print("Adding class '%s' to blueprint '%s'" % (view, name))
+        view._tpath = path
 # IS THIS ENOUGH?
         rest.add_resource(view, view().endpoint())
     return bp
@@ -30,6 +43,7 @@ class RestView(Resource):
     """ A base REST resource for views """
     _headers = {'Content-Type': 'text/html'}
     _endpoint = 'test'
+    _tpath = "/"
 
     def __init__(self):
         """ Skip normal REST init """
@@ -45,5 +59,7 @@ class RestView(Resource):
             return make_response(render_template(page),
                                  hc.HTTP_OK_BASIC, self._headers)
         except TemplateNotFound:
-            return make_response("Failed",
+            message = "Failed to find page '%s' in path '%s'" \
+                % (page, self._tpath)
+            return make_response(message,
                                  hc.HTTP_BAD_NOTFOUND, self._headers)

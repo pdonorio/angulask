@@ -1,11 +1,11 @@
 
 TO DO:
 
-☐ Automatize the adding of a single page/model
+✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
   http://blog.luisrei.com/articles/flaskrest.html
-  ☐ python module with a blueprint
-    ☐ also an ini file which says which file and which blueprint
-    ☐ and also which template directory? uhm
+  ✔ python module with a blueprint @done (15-12-12 00:04)
+    ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
+    ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
 ☐ Angular blueprint load
 ☐ missing a good old logger... PLEASE!
 ☐ CSS framework choise
