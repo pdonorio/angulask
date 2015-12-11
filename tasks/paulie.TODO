@@ -6,6 +6,7 @@ TO DO:
   ✔ python module with a blueprint @done (15-12-12 00:04)
     ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
     ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
+   ☐ example in docs for adding a page and template
 ☐ Angular blueprint load
 ☐ missing a good old logger... PLEASE!
 ☐ CSS framework choise
