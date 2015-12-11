@@ -78,6 +78,13 @@ def create_app():
 
     # Add things to this app
     app.register_blueprint(cms)
+####################################
+    try:
+        from .pypages.example import bp
+        app.register_blueprint(bp)
+    except Exception:
+        pass
+####################################
     app.logger.setLevel(logging.NOTSET)
 
     # Flask LOGIN
