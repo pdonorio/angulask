@@ -6,7 +6,7 @@ Rest view implementation
 """
 
 from __future__ import absolute_import
-import htmlcodes as hc
+from . import htmlcodes as hc
 from flask import Blueprint, render_template, make_response
 from jinja2 import TemplateNotFound
 from flask_restful import Api, Resource
@@ -20,7 +20,8 @@ def generate_blueprint(name='someviews', folder='templates', classes=[]):
     bp = Blueprint(name, __name__, template_folder=folder)
     rest = Api(bp)
     for view in classes:
-        print("TEST CLASS", view)
+        print("Adding class '%s' to blueprint '%s'" % (view, name))
+# IS THIS ENOUGH?
         rest.add_resource(view, view().endpoint())
     return bp
 

@@ -4,7 +4,7 @@
 """ Flask application main file """
 
 # Import app factory
-from angulask import create_app
+from angulask.server import create_app
 # Configuration is decided via environment variable: FLASK_CONFIGURATION
 
 app = create_app()
