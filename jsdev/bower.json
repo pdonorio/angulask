@@ -15,7 +15,9 @@
     "angular": "~1.4.8",
     "font-awesome": "~4.4.0",
     "angular-ui-router": "~0.2.15",
-    "ApiBuilder": "test#~0.0.2"
+    "ApiBuilder": "test#~0.0.2",
+    "Materialize": "materialize#~0.97.3",
+    "angular-materialize": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.8"
