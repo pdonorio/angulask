@@ -10,7 +10,9 @@ TO DO:
 ☐ Angular blueprint load
 ☐ missing a good old logger... PLEASE!
 ☐ CSS framework choise
-  ☐ switch to materialize
+  ✔ switch to materialize @done (15-12-12 20:14)
+  ☐ prepare python page
+    ☐ add template
 
 ☐ Why js variables are so slow to be defined?
  ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak
