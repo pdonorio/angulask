@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="web">
   <head>
+    <title>{{ project }}: {% block title %}{% endblock %}</title>
 <!-- meta -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1.0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-
     <meta name="description" content="">
     <meta name="author" content="">
 <!-- /meta -->
@@ -14,15 +15,15 @@
     <base href="{{ mydomain }}"/>
 {% endif %}
 
-    <title>{{ project }}: {% block title %}{% endblock %}</title>
-
 <!-- styles -->
-{% for css in stylesheets %}<link rel="stylesheet" href="{{ css }}" />
+{% for css in stylesheets %}
+    <link rel="stylesheet" href="{{ css }}" />
 {% endfor %}
-{% block customstylesheets %}{% endblock %}<!-- styles -->
+{% block customstylesheets %}{% endblock %}
+<!-- styles -->
 
 </head>
-<body {% block bodyclass %}{% endblock %}>
+<body {% block bodyclass %}{% endblock %} {% block ngapp %}{% endblock %}>
 
     <!-- Wrap all page content here -->
     <div id="wrap">

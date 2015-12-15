@@ -3,17 +3,18 @@
 {% block topbar %}
   {% if topbar_color %}
     {% if topbar_color == 'dark' %}
-      <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
+<nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
     {% else %}
-      <nav class="navbar navbar-fixed-top navbar-light bg-faded" style="background-color: #{{ topbar_color }};">
+<nav class="navbar navbar-fixed-top navbar-light bg-faded" style="background-color: #{{ topbar_color }};">
     {% endif %}
   {% else %}
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
   {% endif %}
 
   {% for logo in logos %}
-      <a href="#" class="pull-right" style='padding-right:10px;'>
-        <img src="{{ logo.src }}" width="{{ logo.width }}"></a>
+  <a href="#" class="pull-right" style='padding-right:10px;'>
+    <img src="{{ logo.src }}" width="{{ logo.width }}">
+  </a>
   {% endfor %}
 
   <a class="navbar-brand pull-left" href="/"> <i class="fa fa-briefcase"></i> {{ project }} </a>
@@ -30,7 +31,6 @@
         <a class="nav-link" href="{{ url_for('.logout') }}">Log-Out</a>
     </li>
     {% endif %}
-
   </ul>
 
 </nav>

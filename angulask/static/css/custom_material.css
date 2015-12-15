@@ -1,6 +1,6 @@
 
   header, main, footer {
-    padding-left: 240px;
+    padding-left: 180px;
   }
 
   @media only screen and (max-width : 800px) {
