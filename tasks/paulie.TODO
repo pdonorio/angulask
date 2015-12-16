@@ -13,6 +13,8 @@ TO DO:
     ☐ add template
 ☐ Angular blueprint load
 ☐ missing a good old logger... PLEASE!
+☐ remove flask-login? login manager aka lm
+ ☐ or make it optional, because you might want to say: 'HEY I USE APIs'
 
 ☐ Why js variables are so slow to be defined?
  ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak

@@ -77,11 +77,11 @@ user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
 
 
-def templating(page, framework='bootstrap'):
+def templating(page, framework='bootstrap', **whatever):
     template_path = 'frameworks' + '/' + framework
-    return render_template(
-        template_path + '/' + page,
-        **user_config['content'])
+    tmp = whatever.copy()
+    tmp.update(user_config['content'])
+    return render_template(template_path + '/' + page, **tmp)
 
 
 #################################
@@ -153,7 +153,7 @@ def view(id=None):
             TableCls.classes = ['table', 'table-hover']
             tcontent = []
             for f in flist:
-                tcontent.append({'files': f.replace(mydir,'')})
+                tcontent.append({'files': f.replace(mydir, '')})
             mytable = TableCls(tcontent)
 
     # SINGLE VIEW
@@ -183,6 +183,7 @@ def view(id=None):
 
 template = 'forms/insert_search.html'
 
+
 @cms.route('/insert', methods=["GET", "POST"])
 def insert():
     status = "Waiting data to save"
@@ -193,10 +194,9 @@ def insert():
         flash("User saved", 'success')
         status = "Saved"
 
-    return render_template(template,
-        status=status, form=iform, formname='insert',
-        selected=insertable, keyfield =user_config['models'].get('key_field'),
-        **user_config['content'])
+    return templating(template,
+        status=status, form=iform, formname='insert', selected=insertable,
+        keyfield =user_config['models'].get('key_field'))
 
 
 @cms.route('/search', methods=["GET", "POST"])
@@ -206,37 +206,13 @@ def search():
     if iform.validate_on_submit():
         status = "Work in progress"
         # flash("User saved", 'success')
-
-    return render_template(template,
-        status=status, form=iform, formname='search',
-        **user_config['content'])
-
+    return templating(
+        template, status=status, form=iform, formname='search')
 
 
 ###########################################################
 # LOGIN!
 ###########################################################
-
-# @cms.route('/login', methods=['GET','POST'])
-# def login():
-
-#     form = forms.LoginForm(request.form)
-
-# #http://flask.pocoo.org/snippets/64/
-# # NOT WORKING?
-#     if form.validate_on_submit():
-#         flash(u'Successfully logged in as %s' % form.user.username)
-#         session['user_id'] = form.user.id
-#         print("\n\n\nLOGGED!!\n\n\n")
-
-#         # Redirect to index?
-#         return redirect(url_for('.home'))
-
-#         # Redirect to last page accessed?
-#         #return form.redirect('index')
-#     return render_template('forms/login.html', form=form)
-
-
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
