@@ -9,6 +9,8 @@ TO DO:
    ☐ example in docs for adding a page and template
 ☐ CSS framework choise
   ✔ switch to materialize @done (15-12-12 20:14)
+  ✔ jinja 2 whitespace problems @done (15-12-16 14:21)
+    http://jinja.pocoo.org/docs/dev/templates/#whitespace-control
   ☐ prepare python page
     ☐ add template
 ☐ Angular blueprint load
@@ -18,6 +20,9 @@ TO DO:
 
 ☐ Why js variables are so slow to be defined?
  ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak
+
+☐ reduce html size on whitespaces
+https://github.com/mitsuhiko/jinja2-htmlcompress
 
 ---- ✄ -----------------------
  ☐ graphdb can be set a password from variable:  NEO4J_AUTH = neo4j/<password>
