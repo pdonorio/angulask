@@ -15,6 +15,11 @@ PATH = 'angular'   # Main directory where all conf files are found
 CONFIG_PATH = 'config'
 JSON_EXT = 'json'
 
+BACKEND = False
+for key in os.environ.keys():
+    if 'backend' in key.lower():
+        BACKEND = True
+
 
 ########################################
 # Read user config

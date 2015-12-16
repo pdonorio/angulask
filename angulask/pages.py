@@ -15,6 +15,10 @@ from .basemodel import db, lm, create_table, Col, \
     User, MyModel, MyTable, \
     user_config, insertable, selected
 from . import forms
+from config import BACKEND
+from .security import login_point
+
+print("BACKEND", BACKEND)
 
 # Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
@@ -231,58 +235,18 @@ def login():
 
     username = request.form['username']
     password = request.form['password']
+    check_auth, response = login_point(username, password, BACKEND)
 
-###########################################
-# CONVERT THIS INTO A FUNCTION WHEN IT'S COMPLETED
-
-    import requests
-    import simplejson as json
-
-    NODE = 'myapi'
-    PORT = 5000
-
-    URL = 'http://%s:%s' % (NODE, PORT)
-    LOGIN_URL = URL + '/api/login'
-    HEADERS = {'content-type': 'application/json'}
-    payload = {'email': username, 'password': password}
-
-    # http://mandarvaze.github.io/2015/01/token-auth-with-flask-security.html
-    try:
-        r = requests.post(LOGIN_URL,
-                          data=json.dumps(payload), headers=HEADERS, timeout=5)
-    except requests.exceptions.ConnectionError:
-        # Failed to connect to APIs
-        user_config['content']['error_message'] = 'API not reachable...'
+    if check_auth is None:
+        flash(response, 'danger')
         return templating('errors/500.html')
+    elif check_auth:
+        flash(response)
+        flash('Logged in successfully', 'success')
+        return redirect(request.args.get('next') or url_for('pages.home'))
 
-    # if registered_user is None:
-    if True:
-        flash('Username or Password is invalid', 'danger')
-        flash(r.json())
-
-# OK:
-# If {'response': {'user': {'authentication_token':  AND 'meta': {'code': 200}}
-# BAD:
-# {'response': {'errors': {'email':
-#   ['Specified user does not exist']}}, 'meta': {'code': 400}}
-        return redirect(url_for('.login'))
-
-##############
-# OLD
-    # registered_user = User.query.filter_by(username=username,
-    #                                        password=password).first()
-
-    # print("\n\nUSER*%s*%s*" % (username, password))
-    # print(registered_user)
-    # print("\n\n")
-    # if registered_user is None:
-    #     flash('Username or Password is invalid', 'danger')
-    #     return redirect(url_for('.login'))
-    # login_user(registered_user)
-##############
-
-    flash('Logged in successfully')
-    return redirect(request.args.get('next') or url_for('.view'))
+    flash('Username or Password is invalid', 'danger')
+    return redirect(url_for('.login'))
 
 
 ################################################

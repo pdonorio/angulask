@@ -13,6 +13,8 @@ TO DO:
     http://jinja.pocoo.org/docs/dev/templates/#whitespace-control
   ☐ prepare python page
     ☐ add template
+✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
+ ✔ Angulask login @done (15-12-16 18:30)
 ☐ Angular blueprint load
 ☐ missing a good old logger... PLEASE!
 ☐ remove flask-login? login manager aka lm
