@@ -16,6 +16,7 @@ from .basemodel import db, lm, create_table, Col, \
     user_config, insertable, selected
 from . import forms
 
+# Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
 
 # Static things
@@ -61,6 +62,7 @@ if 'logos' not in user_config['content']:
 ############################
 # // TO FIX:
 # ## This should load only a specified angular blueprint
+
 # Dynamically load all other angularjs files
 prefix = __package__
 for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
@@ -74,27 +76,28 @@ for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
 
-# ######################################################
-# #http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/#caching-decorator
-# from functools import wraps
 
-# def cached(timeout=5 * 1, key='view/%s'):
-#     def decorator(f):
-#         @wraps(f)
-#         def decorated_function(*args, **kwargs):
-#             cache_key = key % request.path
-#             rv = cache.get(cache_key)
-#             if rv is not None:
-#                 return rv
-#             rv = f(*args, **kwargs)
-#             cache.set(cache_key, rv, timeout=timeout)
-#             return rv
-#         return decorated_function
-#     return decorator
-
-######################################################
+def templating(page, framework='bootstrap'):
+    template_path = 'frameworks' + '/' + framework
+    return render_template(
+        template_path + '/' + page,
+        **user_config['content'])
 
 
+#################################
+# BASIC INTERFACE ROUTES
+@cms.route('/')
+@cms.route('/home')
+def home():
+    return templating('pages/placeholder.home.html')
+
+
+@cms.route('/about')
+def about():
+    return templating('pages/placeholder.about.html')
+
+
+#################################
 def single_element_insert_db(iform, obj):
     iform.populate_obj(obj)
 # // TO FIX:
@@ -172,16 +175,13 @@ def view(id=None):
     # NORMAL VIEW (all elements)
     ####################################################
 
-    print("\n\nTEST\n\n", user_config['content'])
-
-    return render_template(template,
-        status=status, formname='view', dbitems=items, id=id,
+    return templating(
+        template, ftable=mytable,
         table=MyTable(items, sort_by=sort_field, sort_reverse=reverse),
-        ftable=mytable,
-        **user_config['content'])
+        status=status, formname='view', dbitems=items, id=id)
+
 
 template = 'forms/insert_search.html'
-
 
 @cms.route('/insert', methods=["GET", "POST"])
 def insert():
@@ -211,20 +211,6 @@ def search():
         status=status, form=iform, formname='search',
         **user_config['content'])
 
-################
-# Basic interface routes ####
-################
-
-@cms.route('/')
-@cms.route('/home')
-def home():
-    return render_template('pages/placeholder.home.html',
-        **user_config['content'])
-
-@cms.route('/about')
-def about():
-    return render_template('pages/placeholder.about.html',
-        **user_config['content'])
 
 
 ###########################################################
@@ -261,19 +247,17 @@ def before_request():
     g.user = current_user
 
 
-
 @cms.route('/login', methods=['GET', 'POST'])
 def login():
 
     if request.method == 'GET':
-        return render_template('forms/newlogin.html', **user_config['content'])
-
-    # IF POST
+        return templating('forms/newlogin.html')
 
     username = request.form['username']
     password = request.form['password']
 
-##############
+###########################################
+# CONVERT THIS INTO A FUNCTION WHEN IT'S COMPLETED
 
     import requests
     import simplejson as json
@@ -287,18 +271,24 @@ def login():
     payload = {'email': username, 'password': password}
 
     # http://mandarvaze.github.io/2015/01/token-auth-with-flask-security.html
-    r = requests.post(LOGIN_URL, data=json.dumps(payload), headers=HEADERS, timeout=5)
-    if True:
+    try:
+        r = requests.post(LOGIN_URL,
+                          data=json.dumps(payload), headers=HEADERS, timeout=5)
+    except requests.exceptions.ConnectionError:
+        # Failed to connect to APIs
+        user_config['content']['error_message'] = 'API not reachable...'
+        return templating('errors/500.html')
+
     # if registered_user is None:
+    if True:
         flash('Username or Password is invalid', 'danger')
         flash(r.json())
 
-# OK
+# OK:
 # If {'response': {'user': {'authentication_token':  AND 'meta': {'code': 200}}
-
-# BAD
-# {'response': {'errors': {'email': ['Specified user does not exist']}}, 'meta': {'code': 400}}
-
+# BAD:
+# {'response': {'errors': {'email':
+#   ['Specified user does not exist']}}, 'meta': {'code': 400}}
         return redirect(url_for('.login'))
 
 ##############

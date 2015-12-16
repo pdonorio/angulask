@@ -7,12 +7,12 @@ TO DO:
     ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
     ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
    ☐ example in docs for adding a page and template
-☐ Angular blueprint load
-☐ missing a good old logger... PLEASE!
 ☐ CSS framework choise
   ✔ switch to materialize @done (15-12-12 20:14)
   ☐ prepare python page
     ☐ add template
+☐ Angular blueprint load
+☐ missing a good old logger... PLEASE!
 
 ☐ Why js variables are so slow to be defined?
  ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak
