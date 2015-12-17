@@ -5,6 +5,8 @@
 
 import requests
 import simplejson as json
+from .basemodel import User
+from flask.ext.login import login_user
 from . import htmlcodes as hcodes
 
 NODE = 'myapi'
@@ -40,17 +42,13 @@ def login_api(username, password):
 
 def login_internal(username, password):
 
-    # registered_user = User.query.filter_by(username=username,
-    #                                        password=password).first()
+    registered_user = \
+        User.query.filter_by(username=username, password=password).first()
 
-    # print("\n\nUSER*%s*%s*" % (username, password))
-    # print(registered_user)
-    # print("\n\n")
-    # if registered_user is None:
-    #     flash('Username or Password is invalid', 'danger')
-    #     return redirect(url_for('.login'))
-    # login_user(registered_user)
-    return False
+    if registered_user is None:
+        return False
+    login_user(registered_user)
+    return True
 
 
 def login_point(username, password, backend):

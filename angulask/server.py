@@ -8,11 +8,10 @@ import logging
 import csv
 from flask import Flask, request as req
 from sqlalchemy import inspect
-from . import CONFIG_MODULE
+from config import BACKEND
 from .pages import cms
 from .basemodel import db, lm, User, MyModel
-from . import pypages as custom_views
-from . import m
+from . import CONFIG_MODULE, m, pypages as custom_views
 
 
 ################
@@ -93,13 +92,16 @@ def create_app():
     with app.app_context():
         # Extensions like Flask-SQLAlchemy now know what the "current" app
         # is while within this block. Therefore, you can now run........
-        db.drop_all()
+        if not BACKEND:
 # // TO FIX:
 # Drop tables and populate with basic data, only on request
 # e.g. startup option
-        print("Created DB/tables")
-        db.create_all()
-        init_insert(db, app.config)
+            print("Dropping DB")
+            db.drop_all()
+            db.create_all()
+            print("Updating DB/tables")
+            print("INIT DB")
+            init_insert(db, app.config)
 
 # SANITY CHECKS?
         # from .sanity_checks import is_sane_database

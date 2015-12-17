@@ -15,6 +15,13 @@ TO DO:
     ☐ add template
 ✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
  ✔ Angulask login @done (15-12-16 18:30)
+
+ ☐ If backend
+
+Authentication:
+  ☐ double login?
+  ☐ Flask auth blueprint (login part)
+
 ☐ Angular blueprint load
 ☐ missing a good old logger... PLEASE!
 ☐ remove flask-login? login manager aka lm

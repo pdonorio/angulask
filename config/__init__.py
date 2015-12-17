@@ -44,11 +44,16 @@ class BaseConfig(object):
     TESTING = False
     MYCONFIG_PATH = os.path.join(CONFIG_PATH, PATH)
 
-    SECRET_KEY = 'my precious'
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + \
-        os.path.join(BASE_DIR, 'database.db')
+    BASE_DB_DIR = '/dbs'
+    SQLLITE_DBFILE = 'latest.db'
+    dbfile = os.path.join(BASE_DB_DIR, SQLLITE_DBFILE)
+    # WARNING: this should be equal between Frontend and Backend,
+    # if both are using flask and the same db
+    SECRET_KEY = 'my-super-secret-keyword'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + dbfile
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = 'my precious'
 
     HOST = 'localhost'
     PORT = int(os.environ.get('PORT', 5000))

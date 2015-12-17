@@ -33,6 +33,10 @@ db = SQLAlchemy()
 lm = LoginManager()
 
 
+##############
+# IMPORT FROM rest-mock if available
+##############
+
 #############################################
 # USER MODEL: necessary for Login
 class User(db.Model):

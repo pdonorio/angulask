@@ -57,6 +57,7 @@ flask:
     image: pdonorio/flasking
     command: ./boot
     volumes:
+        - frontend_litedb:/dbs
         - ..:/data
         - ../jsdev/bower_components:/data/angulask/static/bower
         - ../jsdev/src/app:/data/angulask/static/app

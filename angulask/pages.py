@@ -7,9 +7,8 @@ import os
 import glob
 from pathlib import Path
 from flask import Blueprint, current_app, \
-    render_template, request, flash, redirect, url_for, g
-from flask.ext.login import login_user, \
-    logout_user, current_user, login_required
+    render_template, request, flash, redirect, url_for, abort, g
+from flask.ext.login import logout_user, current_user, login_required
 from werkzeug import secure_filename
 from .basemodel import db, lm, create_table, Col, \
     User, MyModel, MyTable, \
@@ -17,6 +16,7 @@ from .basemodel import db, lm, create_table, Col, \
 from . import forms
 from config import BACKEND
 from .security import login_point
+from . import htmlcodes as hcodes
 
 print("BACKEND", BACKEND)
 
@@ -217,14 +217,17 @@ def search():
 ###########################################################
 # LOGIN!
 ###########################################################
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
+# Flask login mode
+if not BACKEND:
+    @cms.before_request
+    def before_request():
+        g.user = current_user
 
-@cms.before_request
-def before_request():
-    g.user = current_user
+    # FLASK LOGIN for internal mode
+    @lm.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
 
 
 @cms.route('/login', methods=['GET', 'POST'])
@@ -233,17 +236,29 @@ def login():
     if request.method == 'GET':
         return templating('forms/newlogin.html')
 
-    username = request.form['username']
-    password = request.form['password']
-    check_auth, response = login_point(username, password, BACKEND)
+    check_auth, response = login_point(
+            request.form['username'], request.form['password'], BACKEND)
 
     if check_auth is None:
         flash(response, 'danger')
         return templating('errors/500.html')
     elif check_auth:
-        flash(response)
         flash('Logged in successfully', 'success')
-        return redirect(request.args.get('next') or url_for('pages.home'))
+
+###############
+# // TO FIX:
+# Save token
+        flash(response)
+###############
+
+        # next_is_valid should check if the user has valid
+        # permission to access the `next` url
+        next = request.args.get('next')
+        if False:
+        #if not next_is_valid(next):
+            return abort(hcodes.HTTP_BAD_NOTFOUND)
+
+        return redirect(next or url_for('pages.home'))
 
     flash('Username or Password is invalid', 'danger')
     return redirect(url_for('.login'))
