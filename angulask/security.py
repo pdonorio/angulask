@@ -5,9 +5,10 @@
 
 import requests
 import simplejson as json
-from flask.ext.login import login_user
-from .basemodel import db, User
+from flask.ext.login import login_user, UserMixin
+from datetime import datetime
 from config import BACKEND
+from .basemodel import db, lm, User
 from . import htmlcodes as hcodes
 
 NODE = 'myapi'
@@ -15,6 +16,22 @@ PORT = 5000
 URL = 'http://%s:%s' % (NODE, PORT)
 LOGIN_URL = URL + '/api/login'
 HEADERS = {'content-type': 'application/json'}
+
+
+class Tokenizer(db.Model, UserMixin):
+    __tablename__ = "tokens"
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(255), unique=True, index=True)
+    user_id = db.Column(db.Integer)
+    authenticated_at = db.Column(db.DateTime)
+
+    def __init__(self, token, user_id):
+        self.token = token
+        self.user_id = user_id
+        self.authenticated_at = datetime.utcnow()
+
+    def __repr__(self):
+        return '<Tok for user[%r]> %s' % (self.user_id, self.token)
 
 
 def login_api(username, password):
@@ -41,16 +58,13 @@ def login_api(username, password):
 
     data = out['response']['user']
     token = data['authentication_token']
-###############
-# // TO FIX:
-# Save token
-    from .models.api import Tokenizer
+
+    # Save token inside frontend db
     registered_user = User.query.filter_by(id=data['id']).first()
-    tok = Tokenizer(token, registered_user)
+    tok = Tokenizer(token, registered_user.id)  # or data['id']
     db.session.add(tok)
     db.session.commit()
-    print("\n\nTOKEN\n\n", token, tok)
-###############
+
     return True, tok
 
 
@@ -78,3 +92,15 @@ def login_point(username, password):
 
     # Return response
     return check, data
+
+
+if BACKEND:
+    @lm.user_loader
+    def load_user(id):
+        """ How Flask login can choose the current user. """
+        return Tokenizer.query.get(id)
+else:
+    @lm.user_loader
+    def load_user(id):
+        """ How Flask login can choose the current user. """
+        return User.query.get(int(id))

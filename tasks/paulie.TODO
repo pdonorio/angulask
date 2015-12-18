@@ -2,12 +2,12 @@
 TO DO:
 
 ✔ Authentication @done (15-12-18 07:49)
- ☐ broke normal standalone view...
-   ☐ add test page
- ☐ save @token
+ ✔ save @token @done (15-12-18 13:33)
+ ✔ broke normal standalone view... @done (15-12-18 16:24)
+   ✘ add test page @cancelled (15-12-18 16:24)
+ ✘ sql lite secret? shared with restmock and angulask?? @cancelled (15-12-18 16:24)
+ ☐ broken angular view
  ☐ Flask auth blueprint (login part)
- ☐ flask admin rest redirect after login is wrong. an option for flask admin?
- ☐ sql lite secret? shared with restmock and angulask??
 
 ☐ A good old logger... PLEASE!
    ☐ then fix back rest-mock/models.py

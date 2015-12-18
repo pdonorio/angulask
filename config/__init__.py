@@ -46,11 +46,9 @@ class BaseConfig(object):
 
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     BASE_DB_DIR = '/dbs'
-    SQLLITE_DBFILE = 'latest.db'
+    SQLLITE_DBFILE = 'frontend.db'
     dbfile = os.path.join(BASE_DB_DIR, SQLLITE_DBFILE)
-    # WARNING: this should be equal between Frontend and Backend,
-    # if both are using flask and the same db
-    SECRET_KEY = 'my-super-secret-keyword'
+    SECRET_KEY = 'my-super-secret-keyword_referringtofrontendside'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + dbfile
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'my precious'

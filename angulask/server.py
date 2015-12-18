@@ -90,18 +90,15 @@ def create_app():
 
     # Application context
     with app.app_context():
-        # Extensions like Flask-SQLAlchemy now know what the "current" app
-        # is while within this block. Therefore, you can now run........
-        if not BACKEND:
 # // TO FIX:
 # Drop tables and populate with basic data, only on request
 # e.g. startup option
-            print("Dropping DB")
-            db.drop_all()
-            db.create_all()
-            print("Updating DB/tables")
-            print("INIT DB")
-            init_insert(db, app.config)
+        print("Dropping DB")
+        db.drop_all()
+        db.create_all()
+        print("Updating DB/tables")
+        print("INIT DB")
+        init_insert(db, app.config)
 
 # SANITY CHECKS?
         # from .sanity_checks import is_sane_database

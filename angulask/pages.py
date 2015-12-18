@@ -18,6 +18,7 @@ from . import forms
 from .security import login_point
 from . import htmlcodes as hcodes
 from .basemodel import User
+from config import BACKEND
 
 # Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
@@ -223,16 +224,6 @@ def before_request():
     g.user = current_user
 
 
-@lm.user_loader
-def load_user(id):
-    """
-    How Flask login can choose the current user.
-    Note: if you couple flask front-end and APIs,
-    make sure they work on the same DB (sqllite or postgres)
-    """
-    return User.query.get(int(id))
-
-
 @cms.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -262,11 +253,11 @@ def login():
     print("FAILED LOGIN", response)
     return redirect(url_for('.login'))
 
-@cms.route('/testlogin')
-@login_required
-def testlogin(id=None):
-    flash("it works...")
-    return templating('main.html')
+# @cms.route('/testlogin')
+# @login_required
+# def testlogin(id=None):
+#     flash("it works...")
+#     return templating('main.html')
 
 ################################################
 # # REIMPLEMENT

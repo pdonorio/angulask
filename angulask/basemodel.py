@@ -12,8 +12,6 @@ from flask_table import Table, Col, create_table
 from flask.ext.login import LoginManager
 from sqlalchemy import inspect
 from flask.ext.sqlalchemy import SQLAlchemy
-# Share the same model if you use REST API as backend
-from config import BACKEND
 
 
 #############################################
@@ -37,41 +35,37 @@ lm = LoginManager()
 
 #############################################
 # USER MODEL: necessary for Login
-if BACKEND:
-    print("BACKEND", BACKEND)
-    from .models.api import User
-else:
-    class User(db.Model):
+class User(db.Model):
 
-        __tablename__ = "users"
+    __tablename__ = "users"
 
-        id = db.Column('user_id', db.Integer, primary_key=True)
-        username = db.Column('username', db.String(20),
-                             unique=True, index=True)
-        password = db.Column('password', db.String(20))
-        email = db.Column('email', db.String(50), unique=True, index=True)
-        registered_on = db.Column('registered_on', db.DateTime)
+    id = db.Column('user_id', db.Integer, primary_key=True)
+    username = db.Column('username', db.String(20),
+                         unique=True, index=True)
+    password = db.Column('password', db.String(20))
+    email = db.Column('email', db.String(50), unique=True, index=True)
+    registered_on = db.Column('registered_on', db.DateTime)
 
-        def __init__(self, username, password, email):
-            self.username = username
-            self.password = password
-            self.email = email
-            self.registered_on = datetime.utcnow()
+    def __init__(self, username, password, email):
+        self.username = username
+        self.password = password
+        self.email = email
+        self.registered_on = datetime.utcnow()
 
-        def is_authenticated(self):
-            return True
+    def is_authenticated(self):
+        return True
 
-        def is_active(self):
-            return True
+    def is_active(self):
+        return True
 
-        def is_anonymous(self):
-            return False
+    def is_anonymous(self):
+        return False
 
-        def get_id(self):
-            return str(self.id)
+    def get_id(self):
+        return str(self.id)
 
-        def __repr__(self):
-            return '<User %r>' % (self.username)
+    def __repr__(self):
+        return '<User %r>' % (self.username)
 
 
 #############################################
