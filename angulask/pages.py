@@ -251,8 +251,9 @@ def login():
         # next_is_valid should check if the user has valid
         # permission to access the `next` url
         next = request.args.get('next')
-        if False:
+# //TO FIX: write next_is_valid..?
         #if not next_is_valid(next):
+        if False:
             return abort(hcodes.HTTP_BAD_NOTFOUND)
 
         return redirect(next or url_for('pages.home'))

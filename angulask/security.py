@@ -6,7 +6,8 @@
 import requests
 import simplejson as json
 from flask.ext.login import login_user
-from .basemodel import User
+from .basemodel import db, User
+from config import BACKEND
 from . import htmlcodes as hcodes
 
 NODE = 'myapi'
@@ -19,7 +20,6 @@ HEADERS = {'content-type': 'application/json'}
 def login_api(username, password):
     """ Login requesting token to our API and also store the token """
 
-    token = None
     payload = {'email': username, 'password': password}
 
     # http://mandarvaze.github.io/2015/01/token-auth-with-flask-security.html
@@ -27,48 +27,50 @@ def login_api(username, password):
         r = requests.post(LOGIN_URL,
                           data=json.dumps(payload), headers=HEADERS, timeout=5)
     except requests.exceptions.ConnectionError:
-        return None, "Cannot connect to APIs server", token
+        return None, "Cannot connect to APIs server"
 
     out = r.json()
     if 'response' not in out:
-        return None, "Cannot understand response format", token
+        return None, "Cannot understand response format"
 
     if out['meta']['code'] > hcodes.HTTP_OK_NORESPONSE:
         mess = ""
         for key, value in out['response']['errors'].items():
             mess += key + ': ' + value.pop() + '<br>'
-        return False, mess, token
+        return False, mess
 
     data = out['response']['user']
     token = data['authentication_token']
+###############
+# // TO FIX:
+# Save token
+    from .models.api import Tokenizer
     registered_user = User.query.filter_by(id=data['id']).first()
-    return True, registered_user, token
+    tok = Tokenizer(token, registered_user)
+    db.session.add(tok)
+    db.session.commit()
+    print("\n\nTOKEN\n\n", token, tok)
+###############
+    return True, tok
 
 
 def login_internal(username, password):
     """ Login with internal db """
-    last = None
     registered_user = \
         User.query.filter_by(username=username, password=password).first()
     if registered_user is None:
-        return False, "No such user/password inside DB", last
-    return True, registered_user, last
+        return False, "No such user/password inside DB"
+    return True, registered_user
 
 
 def login_point(username, password):
     """ Handle all possible logins """
     # API
     if BACKEND:
-        check, data, token = login_api(username, password)
-###############
-# // TO FIX:
-# Save token
-        if check:
-            print("\n\nTOKEN\n\n", token)
-###############
+        check, data = login_api(username, password)
     # Standalone server
     else:
-        check, data, token = login_internal(username, password)
+        check, data = login_internal(username, password)
 
     # Register positive response to Flask Login in both cases
     if check:
