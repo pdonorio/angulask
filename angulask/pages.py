@@ -10,15 +10,14 @@ from flask import Blueprint, current_app, \
     render_template, request, flash, redirect, url_for, abort, g
 from flask.ext.login import logout_user, current_user, login_required
 from werkzeug import secure_filename
-from .basemodel import db, lm, create_table, Col, \
-    User, MyModel, MyTable, \
+from .basemodel import db, lm, \
+    create_table, Col, \
+    MyModel, MyTable, \
     user_config, insertable, selected
 from . import forms
-from config import BACKEND
 from .security import login_point
 from . import htmlcodes as hcodes
-
-print("BACKEND", BACKEND)
+from .basemodel import User
 
 # Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
@@ -118,7 +117,7 @@ def row2dict(r):
     return {c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
 
 
-# ######################################################
+######################################################
 @cms.route('/view', methods=["GET", "POST"])
 @cms.route('/view/<int:id>', methods=["GET"])
 @login_required
@@ -218,16 +217,20 @@ def search():
 # LOGIN!
 ###########################################################
 
-# Flask login mode
-if not BACKEND:
-    @cms.before_request
-    def before_request():
-        g.user = current_user
+@cms.before_request
+def before_request():
+    """ Save the current user as the global user for each request """
+    g.user = current_user
 
-    # FLASK LOGIN for internal mode
-    @lm.user_loader
-    def load_user(id):
-        return User.query.get(int(id))
+
+@lm.user_loader
+def load_user(id):
+    """
+    How Flask login can choose the current user.
+    Note: if you couple flask front-end and APIs,
+    make sure they work on the same DB (sqllite or postgres)
+    """
+    return User.query.get(int(id))
 
 
 @cms.route('/login', methods=['GET', 'POST'])
@@ -237,19 +240,13 @@ def login():
         return templating('forms/newlogin.html')
 
     check_auth, response = login_point(
-            request.form['username'], request.form['password'], BACKEND)
+            request.form['username'], request.form['password'])
 
     if check_auth is None:
         flash(response, 'danger')
         return templating('errors/500.html')
     elif check_auth:
         flash('Logged in successfully', 'success')
-
-###############
-# // TO FIX:
-# Save token
-        flash(response)
-###############
 
         # next_is_valid should check if the user has valid
         # permission to access the `next` url
@@ -261,8 +258,14 @@ def login():
         return redirect(next or url_for('pages.home'))
 
     flash('Username or Password is invalid', 'danger')
+    print("FAILED LOGIN", response)
     return redirect(url_for('.login'))
 
+@cms.route('/testlogin')
+@login_required
+def testlogin(id=None):
+    flash("it works...")
+    return templating('main.html')
 
 ################################################
 # # REIMPLEMENT

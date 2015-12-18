@@ -1,12 +1,18 @@
 
 TO DO:
 
-✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
-  http://blog.luisrei.com/articles/flaskrest.html
-  ✔ python module with a blueprint @done (15-12-12 00:04)
-    ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
-    ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
-   ☐ example in docs for adding a page and template
+✔ Authentication @done (15-12-18 07:49)
+ ☐ broke normal standalone view...
+   ☐ add test page
+ ☐ save @token
+ ☐ Flask auth blueprint (login part)
+ ☐ flask admin rest redirect after login is wrong. an option for flask admin?
+ ☐ sql lite secret? shared with restmock and angulask??
+
+☐ A good old logger... PLEASE!
+   ☐ then fix back rest-mock/models.py
+☐ clue to check db? admin?
+
 ☐ CSS framework choise
   ✔ switch to materialize @done (15-12-12 20:14)
   ✔ jinja 2 whitespace problems @done (15-12-16 14:21)
@@ -15,23 +21,28 @@ TO DO:
     ☐ add template
 ✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
  ✔ Angulask login @done (15-12-16 18:30)
+ ✔ If backend @done (15-12-17 13:54)
 
- ☐ If backend
-
-Authentication:
-  ☐ double login?
-  ☐ Flask auth blueprint (login part)
+✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
+  http://blog.luisrei.com/articles/flaskrest.html
+  ✔ python module with a blueprint @done (15-12-12 00:04)
+    ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
+    ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
+   ☐ example in docs for adding a page and template
 
 ☐ Angular blueprint load
-☐ missing a good old logger... PLEASE!
 ☐ remove flask-login? login manager aka lm
  ☐ or make it optional, because you might want to say: 'HEY I USE APIs'
 
 ☐ Why js variables are so slow to be defined?
  ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak
 
+☐ Api connection retry?
+https://github.com/rholder/retrying
+
 ☐ reduce html size on whitespaces
 https://github.com/mitsuhiko/jinja2-htmlcompress
+
 
 ---- ✄ -----------------------
  ☐ graphdb can be set a password from variable:  NEO4J_AUTH = neo4j/<password>

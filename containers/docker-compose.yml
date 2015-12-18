@@ -55,7 +55,8 @@
 
 flask:
     image: pdonorio/flasking
-    command: ./boot
+    command: ./boot devel
+    #command: sleep infinity
     volumes:
         - frontend_litedb:/dbs
         - ..:/data

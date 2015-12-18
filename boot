@@ -4,6 +4,8 @@ main_command=" ./app.py"
 
 if [ "$1" == "devel" ]; then
     APP_MODE='development'
+elif [ "$APP_MODE" == "" ]; then
+    APP_MODE='production'
 fi
 
 if [ "$APP_MODE" == "debug" ]; then
