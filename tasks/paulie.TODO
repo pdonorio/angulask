@@ -6,13 +6,11 @@ TO DO:
  ✔ broke normal standalone view... @done (15-12-18 16:24)
    ✘ add test page @cancelled (15-12-18 16:24)
  ✘ sql lite secret? shared with restmock and angulask?? @cancelled (15-12-18 16:24)
- ☐ broken angular view
- ☐ Flask auth blueprint (login part)
-
+✔ clue to check dbs @done (15-12-19 09:54)
+ ✔ broken angular view @done (15-12-19 09:56)
 ☐ A good old logger... PLEASE!
    ☐ then fix back rest-mock/models.py
-☐ clue to check db? admin?
-
+ ☐ Flask auth blueprint (login part)
 ☐ CSS framework choise
   ✔ switch to materialize @done (15-12-12 20:14)
   ✔ jinja 2 whitespace problems @done (15-12-16 14:21)
@@ -22,6 +20,15 @@ TO DO:
 ✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
  ✔ Angulask login @done (15-12-16 18:30)
  ✔ If backend @done (15-12-17 13:54)
+
+ ☐ handle Token for angular??
+
+THE PROTOCOL:
+  ☐ add python file (blueprint) in custom
+    ☐ add button in menu?
+  ☐ add python templates in a dir with same name as python file
+  ☐ add angular bp/dir
+  ☐ add angular templates
 
 ✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
   http://blog.luisrei.com/articles/flaskrest.html
