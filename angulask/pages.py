@@ -10,15 +10,13 @@ from flask import Blueprint, current_app, \
     render_template, request, flash, redirect, url_for, abort, g
 from flask.ext.login import logout_user, current_user, login_required
 from werkzeug import secure_filename
-from .basemodel import db, lm, \
+from .basemodel import db, \
     create_table, Col, \
     MyModel, MyTable, \
     user_config, insertable, selected
 from . import forms
 from .security import login_point
 from . import htmlcodes as hcodes
-from .basemodel import User
-from config import BACKEND
 
 # Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)

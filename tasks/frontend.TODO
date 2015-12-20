@@ -12,6 +12,9 @@ TO DO:
 - Add pages
   ☐ with ease 
 
+☐ check storage 
+  ☐ otherwise redirect to (internal angular) login
+
 
 ADD PAGE, THE PROTOCOL:
   ☐ add python file (blueprint) in custom
