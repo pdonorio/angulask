@@ -1,18 +1,19 @@
 
 TO DO:
-✔ Authentication @done (15-12-18 07:49)
- ✔ save @token @done (15-12-18 13:33)
- ✔ broke normal standalone view... @done (15-12-18 16:24)
-   ✘ add test page @cancelled (15-12-18 16:24)
- ✘ sql lite secret? shared with restmock and angulask?? @cancelled (15-12-18 16:24)
-✔ clue to check dbs @done (15-12-19 09:54)
- ✔ broken angular view @done (15-12-19 09:56)
 
- ☐ handle Token for angular??
-   ✔ working snippet with http @done (15-12-20 08:54)
-   ☐ pass it via web page for now...
+# NOT SO EASY
+- Login
+  ☐ angular wrapper of flask login with http
+  ☐ angular is /login and flask is /auth
+- Rest JWT
+  ☐ informations to pass along? user?
+- css frameworks
+  ☐ materialize
+- Add pages
+  ☐ with ease 
 
-THE PROTOCOL:
+
+ADD PAGE, THE PROTOCOL:
   ☐ add python file (blueprint) in custom
     ☐ add button in menu?
   ☐ add python templates in a dir with same name as python file
@@ -90,4 +91,11 @@ Completed:
  ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
   ✔ config enable + base (relative /mypath/) + make other links absolute @done (15-11-12 16:14)
  ✔ images problem @done (15-11-12 18:29)
+✔ Authentication @done (15-12-18 07:49)
+ ✔ save @token @done (15-12-18 13:33)
+ ✔ broke normal standalone view... @done (15-12-18 16:24)
+   ✘ add test page @cancelled (15-12-18 16:24)
+ ✘ sql lite secret? shared with restmock and angulask?? @cancelled (15-12-18 16:24)
+✔ clue to check dbs @done (15-12-19 09:54)
+ ✔ broken angular view @done (15-12-19 09:56)
 ✔ angular ui-router via bower @done (15-11-12 19:14)
