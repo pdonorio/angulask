@@ -3,17 +3,19 @@ TO DO:
 
 # NOT SO EASY
 - Login
-  ☐ angular wrapper of flask login with http
+  ✔ angular wrapper of flask login with http @done (15-12-20 22:54)
+  ☐ flask login forwards request to api
   ☐ angular is /login and flask is /auth
+    ☐ check storage
+      ☐ otherwise redirect to (internal angular) login
+    ☐ save in flask db ip
+      ☐ prompt login if no token found for that ip?
 - Rest JWT
   ☐ informations to pass along? user?
 - css frameworks
   ☐ materialize
 - Add pages
-  ☐ with ease 
-
-☐ check storage 
-  ☐ otherwise redirect to (internal angular) login
+  ☐ with ease
 
 
 ADD PAGE, THE PROTOCOL:

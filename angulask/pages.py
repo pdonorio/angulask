@@ -222,40 +222,43 @@ def before_request():
     g.user = current_user
 
 
+@cms.route('/auth', methods=['POST'])
+def auth():
+
+#remove me
+    print("TEST!", request.values, request.json)
+
+    if not ('username' in request.json and 'password' in request.json):
+        return "No valid (json) data credentials", hcodes.HTTP_BAD_UNAUTHORIZED
+
+    response = login_point(
+            request.json['username'], request.json['password'])
+#remove me
+    print("TEST2!", response)
+    return "Hello"
+
+
 @cms.route('/login', methods=['GET', 'POST'])
 def login():
 
     if request.method == 'GET':
+        flash("DEPRECATED", "danger")
         return templating('forms/newlogin.html')
 
-    check_auth, response = login_point(
-            request.form['username'], request.form['password'])
+    # check_auth, response = login_point(
+    #         request.form['username'], request.form['password'])
 
-    if check_auth is None:
-        flash(response, 'danger')
-        return templating('errors/500.html')
-    elif check_auth:
-        flash('Logged in successfully', 'success')
+    # if check_auth is None:
+    #     flash(response, 'danger')
+    #     return templating('errors/500.html')
+    # elif check_auth:
+    #     flash('Logged in successfully', 'success')
+    #     return redirect(request.args.get('next') or url_for('pages.home'))
 
-        # next_is_valid should check if the user has valid
-        # permission to access the `next` url
-        next = request.args.get('next')
-# //TO FIX: write next_is_valid..?
-        #if not next_is_valid(next):
-        if False:
-            return abort(hcodes.HTTP_BAD_NOTFOUND)
+    # flash('Username or Password is invalid', 'danger')
+    # print("FAILED LOGIN", response)
+    # return redirect(url_for('.login'))
 
-        return redirect(next or url_for('pages.home'))
-
-    flash('Username or Password is invalid', 'danger')
-    print("FAILED LOGIN", response)
-    return redirect(url_for('.login'))
-
-# @cms.route('/testlogin')
-# @login_required
-# def testlogin(id=None):
-#     flash("it works...")
-#     return templating('main.html')
 
 ################################################
 # # REIMPLEMENT
@@ -332,7 +335,7 @@ myroute = 'angular'
 
 @cms.route('/' + myroute + '/', methods=["GET", "POST"])
 @cms.route('/' + myroute + '/<path:mypath>', methods=["GET", "POST"])
-@login_required
+#@login_required
 def angular(mypath=None):
     template = 'angularviews/experiment.html'
 

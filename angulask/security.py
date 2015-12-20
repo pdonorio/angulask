@@ -11,40 +11,62 @@ from config import BACKEND
 from .basemodel import db, lm, User
 from . import htmlcodes as hcodes
 
-NODE = 'myapi'
-PORT = 5000
-URL = 'http://%s:%s' % (NODE, PORT)
-LOGIN_URL = URL + '/api/login'
-HEADERS = {'content-type': 'application/json'}
+##################################
+# If connected to APIs
+if BACKEND:
+
+    NODE = 'myapi'
+    PORT = 5000
+    URL = 'http://%s:%s' % (NODE, PORT)
+    LOGIN_URL = URL + '/api/login'
+    HEADERS = {'content-type': 'application/json'}
+
+    @lm.user_loader
+    def load_user(id):
+        """ How Flask login can choose the current user. """
+        return Tokenizer.query.get(id)
+
+    class Tokenizer(db.Model, UserMixin):
+        __tablename__ = "tokens"
+        id = db.Column(db.Integer, primary_key=True)
+        token = db.Column(db.String(255), unique=True, index=True)
+        user_id = db.Column(db.Integer)
+        authenticated_at = db.Column(db.DateTime)
+
+        def __init__(self, token, user_id):
+            self.token = token
+            self.user_id = user_id
+            self.authenticated_at = datetime.utcnow()
+
+        def __repr__(self):
+            return '<Tok for user[%r]> %s' % (self.user_id, self.token)
+
+##################################
+# If standalone db/auth/resources
+else:
+    @lm.user_loader
+    def load_user(id):
+        """ How Flask login can choose the current user. """
+        return User.query.get(int(id))
 
 
-class Tokenizer(db.Model, UserMixin):
-    __tablename__ = "tokens"
-    id = db.Column(db.Integer, primary_key=True)
-    token = db.Column(db.String(255), unique=True, index=True)
-    user_id = db.Column(db.Integer)
-    authenticated_at = db.Column(db.DateTime)
-
-    def __init__(self, token, user_id):
-        self.token = token
-        self.user_id = user_id
-        self.authenticated_at = datetime.utcnow()
-
-    def __repr__(self):
-        return '<Tok for user[%r]> %s' % (self.user_id, self.token)
-
-
+##################################
 def login_api(username, password):
     """ Login requesting token to our API and also store the token """
 
     payload = {'email': username, 'password': password}
-
-    # http://mandarvaze.github.io/2015/01/token-auth-with-flask-security.html
     try:
-        r = requests.post(LOGIN_URL,
+        r = requests.post(LOGIN_URL, stream=True,
                           data=json.dumps(payload), headers=HEADERS, timeout=5)
     except requests.exceptions.ConnectionError:
         return None, "Cannot connect to APIs server"
+
+#hack
+    from flask import Response, stream_with_context
+    return Response(
+        stream_with_context(r.iter_content()),
+        content_type=r.headers['content-type'])
+#hack
 
     out = r.json()
     if 'response' not in out:
@@ -79,6 +101,8 @@ def login_internal(username, password):
 
 def login_point(username, password):
     """ Handle all possible logins """
+
+    return login_api(username, password)
     # API
     if BACKEND:
         check, data = login_api(username, password)
@@ -94,13 +118,3 @@ def login_point(username, password):
     return check, data
 
 
-if BACKEND:
-    @lm.user_loader
-    def load_user(id):
-        """ How Flask login can choose the current user. """
-        return Tokenizer.query.get(id)
-else:
-    @lm.user_loader
-    def load_user(id):
-        """ How Flask login can choose the current user. """
-        return User.query.get(int(id))
