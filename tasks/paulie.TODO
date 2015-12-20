@@ -8,6 +8,18 @@ TO DO:
  ✘ sql lite secret? shared with restmock and angulask?? @cancelled (15-12-18 16:24)
 ✔ clue to check dbs @done (15-12-19 09:54)
  ✔ broken angular view @done (15-12-19 09:56)
+
+ ☐ handle Token for angular??
+   ☐ pass it via web page for now...
+   ☐ JWT?
+
+THE PROTOCOL:
+  ☐ add python file (blueprint) in custom
+    ☐ add button in menu?
+  ☐ add python templates in a dir with same name as python file
+  ☐ add angular bp/dir
+  ☐ add angular templates
+
 ☐ A good old logger... PLEASE!
    ☐ then fix back rest-mock/models.py
  ☐ Flask auth blueprint (login part)
@@ -21,14 +33,6 @@ TO DO:
  ✔ Angulask login @done (15-12-16 18:30)
  ✔ If backend @done (15-12-17 13:54)
 
- ☐ handle Token for angular??
-
-THE PROTOCOL:
-  ☐ add python file (blueprint) in custom
-    ☐ add button in menu?
-  ☐ add python templates in a dir with same name as python file
-  ☐ add angular bp/dir
-  ☐ add angular templates
 
 ✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
   http://blog.luisrei.com/articles/flaskrest.html

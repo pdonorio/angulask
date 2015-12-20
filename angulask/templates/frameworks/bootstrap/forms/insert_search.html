@@ -1,7 +1,7 @@
-{% extends 'frameworks/bootstrap/layouts/data.html' %}
+{% extends 'frameworks/bootstrap/data.html' %}
 
 {% block datacontent %}
-{% from "forms/_formbootstr.html" import render_field %}
+{% from "frameworks/bootstrap/forms/_formbootstr.html" import render_field %}
 <form action="{{ formname }}" method="post">
 
 {% if keyfield %}
