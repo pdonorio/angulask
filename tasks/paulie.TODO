@@ -1,6 +1,5 @@
 
 TO DO:
-
 ✔ Authentication @done (15-12-18 07:49)
  ✔ save @token @done (15-12-18 13:33)
  ✔ broke normal standalone view... @done (15-12-18 16:24)
@@ -10,8 +9,8 @@ TO DO:
  ✔ broken angular view @done (15-12-19 09:56)
 
  ☐ handle Token for angular??
+   ✔ working snippet with http @done (15-12-20 08:54)
    ☐ pass it via web page for now...
-   ☐ JWT?
 
 THE PROTOCOL:
   ☐ add python file (blueprint) in custom
