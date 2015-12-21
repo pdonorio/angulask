@@ -7,7 +7,7 @@ import os
 import glob
 from pathlib import Path
 from flask import Blueprint, current_app, \
-    render_template, request, flash, redirect, url_for, abort, g
+    render_template, request, flash, redirect, url_for, jsonify, g
 from flask.ext.login import logout_user, current_user, login_required
 from werkzeug import secure_filename
 from .basemodel import db, \
@@ -224,18 +224,14 @@ def before_request():
 
 @cms.route('/auth', methods=['POST'])
 def auth():
-
-#remove me
-    print("TEST!", request.values, request.json)
-
+    # Verify POST data
     if not ('username' in request.json and 'password' in request.json):
         return "No valid (json) data credentials", hcodes.HTTP_BAD_UNAUTHORIZED
-
-    response = login_point(
+    # Request login (with or without API)
+    resp, code = login_point(
             request.json['username'], request.json['password'])
-#remove me
-    print("TEST2!", response)
-    return "Hello"
+    # Forward response
+    return jsonify(**resp), code
 
 
 @cms.route('/login', methods=['GET', 'POST'])

@@ -5,14 +5,15 @@
 
 import requests
 import simplejson as json
-from flask.ext.login import login_user, UserMixin
 from datetime import datetime
+# from flask import Response, stream_with_context
+from flask.ext.login import login_user, UserMixin
 from config import BACKEND
 from .basemodel import db, lm, User
 from . import htmlcodes as hcodes
 
 ##################################
-# If connected to APIs
+# If connected to APIs
 if BACKEND:
 
     NODE = 'myapi'
@@ -60,61 +61,54 @@ def login_api(username, password):
                           data=json.dumps(payload), headers=HEADERS, timeout=5)
     except requests.exceptions.ConnectionError:
         return None, "Cannot connect to APIs server"
-
-#hack
-    from flask import Response, stream_with_context
-    return Response(
-        stream_with_context(r.iter_content()),
-        content_type=r.headers['content-type'])
-#hack
-
     out = r.json()
-    if 'response' not in out:
-        return None, "Cannot understand response format"
 
-    if out['meta']['code'] > hcodes.HTTP_OK_NORESPONSE:
-        mess = ""
-        for key, value in out['response']['errors'].items():
-            mess += key + ': ' + value.pop() + '<br>'
-        return False, mess
+    tokobj = None
+    if out['meta']['code'] <= hcodes.HTTP_OK_NORESPONSE:
+        data = out['response']['user']
+        token = data['authentication_token']
 
-    data = out['response']['user']
-    token = data['authentication_token']
+        # Save token inside frontend db
+        registered_user = User.query.filter_by(id=data['id']).first()
+        tokobj = Tokenizer(token, registered_user.id)  # or data['id']
+        db.session.add(tokobj)
+        db.session.commit()
 
-    # Save token inside frontend db
-    registered_user = User.query.filter_by(id=data['id']).first()
-    tok = Tokenizer(token, registered_user.id)  # or data['id']
-    db.session.add(tok)
-    db.session.commit()
+    # return True, tokobj
+    return out['response'], out['meta']['code'], tokobj
 
-    return True, tok
+    # # Stream original response as a proxy
+    # return Response(
+    #     stream_with_context(r.iter_content()),
+    #     content_type=r.headers['content-type'])
 
 
 def login_internal(username, password):
     """ Login with internal db """
     registered_user = \
         User.query.filter_by(username=username, password=password).first()
-    if registered_user is None:
-        return False, "No such user/password inside DB"
-    return True, registered_user
+
+    data = {'errors': {'failed': "No such user/password inside DB"}}
+    code = hcodes.HTTP_BAD_UNAUTHORIZED
+
+    if registered_user is not None:
+        data = {'user': {'id': registered_user.id}}
+        code = hcodes.HTTP_OK_ACCEPTED
+
+    return data, code, registered_user
 
 
 def login_point(username, password):
     """ Handle all possible logins """
 
-    return login_api(username, password)
     # API
     if BACKEND:
-        check, data = login_api(username, password)
+        data, code, obj = login_api(username, password)
     # Standalone server
     else:
-        check, data = login_internal(username, password)
-
+        data, code, obj = login_internal(username, password)
     # Register positive response to Flask Login in both cases
-    if check:
-        login_user(data)
-
-    # Return response
-    return check, data
-
-
+    if obj is not None:
+        login_user(obj)
+    # Return (forward) response
+    return data, code
