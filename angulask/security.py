@@ -75,7 +75,8 @@ def login_api(username, password):
         db.session.commit()
 
     # return True, tokobj
-    return out['response'], out['meta']['code'], tokobj
+    return {'authentication_token':token}, out['meta']['code'], tokobj
+    #return out['response'], out['meta']['code'], tokobj
 
     # # Stream original response as a proxy
     # return Response(
