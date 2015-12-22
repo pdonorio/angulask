@@ -7,6 +7,17 @@ TO DO:
   ✔ flask login forwards request to api @done (15-12-21 08:09)
   ✔ angular is /login and flask is /auth @done (15-12-21 08:13)
     ✔ js store token in storage if auth ok @done (15-12-21 08:26)
+
+☐ using /app/ base does not work sometimes...
+☐ angular centric
+☐ Performance
+http://flask.pocoo.org/docs/0.10/deploying/wsgi-standalone
+    tornado, gevent, twisted, meinheld
+
+    pip install tornado
+    pip install --upgrade setuptools cffi tox 'cython>=0.23.4' git+git://github.com/gevent/gevent.git#egg=gevent
+    gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
     ☐ check storage
       ☐ otherwise redirect to (internal angular) login
     ☐ save in flask db ip

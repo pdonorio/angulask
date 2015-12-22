@@ -34,7 +34,7 @@ bowerdir = staticdir + 'bower/'
 css = [
     bowerdir + "font-awesome/css/font-awesome.min.css",
     bowerdir + "bootstrap/dist/css/bootstrap.min.css",
-    bowerdir + "animate.css/animate.min.css",
+    # bowerdir + "animate.css/animate.min.css",
     staticdir + "css/custom.css"
 ]
 ############################
@@ -42,15 +42,16 @@ css = [
 # Angular framework and app files
 js = [
     bowerdir + "angular/angular.min.js",
-    bowerdir + "angular-animate/angular-animate.min.js",
-    bowerdir + "angular-cookies/angular-cookies.min.js",
-    bowerdir + "angular-sanitize/angular-sanitize.min.js",
-    bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
-    bowerdir + "lodash/lodash.min.js",
-    bowerdir + "restangular/dist/restangular.min.js",
-    bowerdir + "angular-strap/dist/angular-strap.min.js",
-    bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
-    bowerdir + "moment/min/moment.min.js",
+    bowerdir + "angular-route/angular-route.min.js",
+    #bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
+    # bowerdir + "angular-strap/dist/angular-strap.min.js",
+    # bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
+    # bowerdir + "angular-animate/angular-animate.min.js",
+    # bowerdir + "angular-cookies/angular-cookies.min.js",
+    # bowerdir + "angular-sanitize/angular-sanitize.min.js",
+    # bowerdir + "lodash/lodash.min.js",
+    # bowerdir + "restangular/dist/restangular.min.js",
+    # bowerdir + "moment/min/moment.min.js",
     bowerdir + "satellizer/satellizer.min.js",
     # Force order: the angularjs app declaration should be the first
     staticdir + "app/app.js",
@@ -85,6 +86,10 @@ def templating(page, framework='bootstrap', **whatever):
     tmp = whatever.copy()
     tmp.update(user_config['content'])
     return render_template(template_path + '/' + page, **tmp)
+
+
+def jstemplate(title='App', mydomain='/app/'):
+    return templating('enable_angular.html', mydomain=mydomain, jstitle=title)
 
 
 #################################
@@ -235,26 +240,11 @@ def auth():
     return jsonify(**resp), code
 
 
-@cms.route('/login', methods=['GET', 'POST'])
+@cms.route('/app/login')
 def login():
-
-    if request.method == 'GET':
-        flash("DEPRECATED", "danger")
-        return templating('forms/newlogin.html')
-
-    # check_auth, response = login_point(
-    #         request.form['username'], request.form['password'])
-
-    # if check_auth is None:
-    #     flash(response, 'danger')
-    #     return templating('errors/500.html')
-    # elif check_auth:
-    #     flash('Logged in successfully', 'success')
-    #     return redirect(request.args.get('next') or url_for('pages.home'))
-
-    # flash('Username or Password is invalid', 'danger')
-    # print("FAILED LOGIN", response)
-    # return redirect(url_for('.login'))
+    if current_user.is_authenticated:
+        return redirect(request.args.get('next') or url_for('pages.home'))
+    return jstemplate()
 
 
 ################################################
@@ -270,10 +260,15 @@ def login():
 #     form = forms.ForgotForm(request.form)
 #     return render_template('forms/forgot.html', form=form)
 
-@cms.route('/logout')
-def logout():
+@cms.route('/felogout')
+def fe_logout():
     logout_user()
     return redirect(url_for('.home'))
+
+
+@cms.route('/app/logout')
+def logout():
+    return jstemplate()
 ################################################
 
 
@@ -331,9 +326,13 @@ myroute = 'angular'
 
 
 @cms.route('/' + myroute + '/', methods=["GET", "POST"])
-@cms.route('/' + myroute + '/<path:mypath>', methods=["GET", "POST"])
+#@cms.route('/' + myroute + '/<path:mypath>', methods=["GET", "POST"])
 #@login_required
 def angular(mypath=None):
+
+    return current_app.send_static_file('test.html')
+    return redirect(url_for('static', filename='test.html'))
+
     template = 'angularviews/experiment.html'
 
 ############################
@@ -363,6 +362,9 @@ def angular(mypath=None):
 
 # Dirty fix for URL BASE in angular HTML5mode
 ############################
+
+#HACK
+    return jstemplate(mydomain='/'+myroute+'/')
 
     return render_template(template, mydomain='/' + myroute + '/',
                            **user_config['content'])

@@ -41,15 +41,16 @@ if BACKEND:
 
         def __repr__(self):
             return '<Tok for user[%r]> %s' % (self.user_id, self.token)
-
 ##################################
-# If standalone db/auth/resources
+# If standalone db/auth/resources
 else:
     @lm.user_loader
     def load_user(id):
         """ How Flask login can choose the current user. """
         return User.query.get(int(id))
 
+
+# lm.login_view = "users.login"
 
 ##################################
 def login_api(username, password):
@@ -74,9 +75,9 @@ def login_api(username, password):
         db.session.add(tokobj)
         db.session.commit()
 
+    return {'authentication_token': token}, out['meta']['code'], tokobj
+    # return out['response'], out['meta']['code'], tokobj
     # return True, tokobj
-    return {'authentication_token':token}, out['meta']['code'], tokobj
-    #return out['response'], out['meta']['code'], tokobj
 
     # # Stream original response as a proxy
     # return Response(
@@ -94,6 +95,7 @@ def login_internal(username, password):
 
     if registered_user is not None:
         data = {'user': {'id': registered_user.id}}
+# This line above may change
         code = hcodes.HTTP_OK_ACCEPTED
 
     return data, code, registered_user

@@ -44,6 +44,8 @@ class BaseConfig(object):
     TESTING = False
     MYCONFIG_PATH = os.path.join(CONFIG_PATH, PATH)
 
+    #SECURITY_LOGIN_URL
+
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     BASE_DB_DIR = '/dbs'
     SQLLITE_DBFILE = 'frontend.db'

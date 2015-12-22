@@ -1,0 +1,12 @@
+{% extends 'frameworks/bootstrap/main.html' %}
+{% block title %} {{ jstitle }} {% endblock %}
+
+{% block content %}
+
+{{ '{{ some }}' }}
+loading <i class="fa fa-cog fa-spin"></i>
+<div ng-view></div>
+<!--
+<div ui-view='main'></div>
+-->
+{% endblock %}
