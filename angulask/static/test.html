@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="http://awesome.dev/static/bower/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="http://awesome.dev/static/css/custom.css" />
 </head>
-<body>
+<body ng-cloak>
 
 <div id="wrap">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -36,8 +36,13 @@
     </ul>
     </nav>
 
+<br>
+<br>
+<br>
+<br>
 <main id="content" role="main" class="container"> <br>
-    <div ng-controller='MainController'>
+    <div>
+        TEST
         {{ some }}
         loading <i class="fa fa-cog fa-spin"></i>
     </div>
