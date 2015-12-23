@@ -47,12 +47,12 @@ js = [
     # bowerdir + "angular-strap/dist/angular-strap.min.js",
     # bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
     # bowerdir + "angular-animate/angular-animate.min.js",
-    # bowerdir + "angular-cookies/angular-cookies.min.js",
-    # bowerdir + "angular-sanitize/angular-sanitize.min.js",
-    # bowerdir + "lodash/lodash.min.js",
-    # bowerdir + "restangular/dist/restangular.min.js",
-    # bowerdir + "moment/min/moment.min.js",
+    bowerdir + "angular-sanitize/angular-sanitize.min.js",
     bowerdir + "satellizer/satellizer.min.js",
+# JWT
+
+# Bower libs on demand
+    # bowerdir + "moment/min/moment.min.js",
     # Force order: the angularjs app declaration should be the first
     staticdir + "app/app.js",
 ]

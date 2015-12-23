@@ -2,14 +2,13 @@
 {% block title %} {{ jstitle }} {% endblock %}
 
 {% block content %}
-<div>
-    <div ng-controller='MainController'>
-    [[ some ]]
-    </div>
-    loading <i class="fa fa-cog fa-spin"></i>
-    <!--
-    <div ng-view></div>
-    -->
-    <div ui-view='main'></div>
+
+<!--
+<div ng-if="false">
+loading
+    <img src='/static/img/loading.gif' width=150>
 </div>
+-->
+
+<div ui-view='main'></div>
 {% endblock %}
