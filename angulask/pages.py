@@ -42,8 +42,8 @@ css = [
 # Angular framework and app files
 js = [
     bowerdir + "angular/angular.min.js",
-    bowerdir + "angular-route/angular-route.min.js",
-    #bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
+    # bowerdir + "angular-route/angular-route.min.js",
+    bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
     # bowerdir + "angular-strap/dist/angular-strap.min.js",
     # bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
     # bowerdir + "angular-animate/angular-animate.min.js",
@@ -330,8 +330,8 @@ myroute = 'angular'
 #@login_required
 def angular(mypath=None):
 
-    return current_app.send_static_file('test.html')
-    return redirect(url_for('static', filename='test.html'))
+    # return current_app.send_static_file('test.html')
+    # return redirect(url_for('static', filename='test.html'))
 
     template = 'angularviews/experiment.html'
 
