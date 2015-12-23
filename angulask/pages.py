@@ -51,9 +51,7 @@ js = [
     bowerdir + "angular-sanitize/angular-sanitize.min.js",
     bowerdir + "satellizer/satellizer.min.js",
     bowerdir + "angular-loading-bar/build/loading-bar.min.js",
-# JWT
-
-# loading bar
+# JWT ?
 
 # Bower libs on demand
     # bowerdir + "moment/min/moment.min.js",

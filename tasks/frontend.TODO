@@ -15,7 +15,6 @@ http://flask.pocoo.org/docs/0.10/deploying/wsgi-standalone
     pip install tornado
     pip install --upgrade setuptools cffi tox 'cython>=0.23.4' git+git://github.com/gevent/gevent.git#egg=gevent
     gunicorn -w 4 -b 0.0.0.0:5000 app:app
-☐ angular centric!
 ☐ auth
   ☐ check storage
     ☐ otherwise redirect to (internal angular) login
