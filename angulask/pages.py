@@ -184,10 +184,6 @@ def fe_logout():
 
 
 ######################################################
-myroute = 'angular'
-
-
-
 @cms.route('/', methods=["GET", "POST"])
 @cms.route('/<path:mypath>', methods=["GET", "POST"])
 # @login_required
