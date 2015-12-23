@@ -34,6 +34,7 @@ bowerdir = staticdir + 'bower/'
 css = [
     bowerdir + "font-awesome/css/font-awesome.min.css",
     bowerdir + "bootstrap/dist/css/bootstrap.min.css",
+    bowerdir + "angular-loading-bar/build/loading-bar.min.css",
     # bowerdir + "animate.css/animate.min.css",
     staticdir + "css/custom.css"
 ]
@@ -49,7 +50,10 @@ js = [
     # bowerdir + "angular-animate/angular-animate.min.js",
     bowerdir + "angular-sanitize/angular-sanitize.min.js",
     bowerdir + "satellizer/satellizer.min.js",
+    bowerdir + "angular-loading-bar/build/loading-bar.min.js",
 # JWT
+
+# loading bar
 
 # Bower libs on demand
     # bowerdir + "moment/min/moment.min.js",
