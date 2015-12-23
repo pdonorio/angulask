@@ -1,6 +1,6 @@
 {
     "project": "Angulask",
-    "menus": [ "home", "view", "angular", "about" ],
+    "menus": [ "home" ],
     "title": "Angularjs meets Flask",
     "subtitle": "Automatic python and Javascript Angular power",
     "logos": [
