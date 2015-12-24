@@ -56,15 +56,19 @@ else:
 def login_api(username, password):
     """ Login requesting token to our API and also store the token """
 
+    tokobj = None
     payload = {'email': username, 'password': password}
+
     try:
         r = requests.post(LOGIN_URL, stream=True,
                           data=json.dumps(payload), headers=HEADERS, timeout=5)
     except requests.exceptions.ConnectionError:
-        return None, "Cannot connect to APIs server"
+        return {'errors':
+                {'API unavailable': "Cannot connect to APIs server"}}, \
+                hcodes.HTTP_DEFAULT_SERVICE_FAIL, tokobj
     out = r.json()
 
-    tokobj = None
+    response = {'errors': {'No autorization': "Invalid credentials"}}
     if out['meta']['code'] <= hcodes.HTTP_OK_NORESPONSE:
         data = out['response']['user']
         token = data['authentication_token']
@@ -74,15 +78,9 @@ def login_api(username, password):
         tokobj = Tokenizer(token, registered_user.id)  # or data['id']
         db.session.add(tokobj)
         db.session.commit()
+        response = {'authentication_token': token}
 
-    return {'authentication_token': token}, out['meta']['code'], tokobj
-    # return out['response'], out['meta']['code'], tokobj
-    # return True, tokobj
-
-    # # Stream original response as a proxy
-    # return Response(
-    #     stream_with_context(r.iter_content()),
-    #     content_type=r.headers['content-type'])
+    return response, out['meta']['code'], tokobj
 
 
 def login_internal(username, password):

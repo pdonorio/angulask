@@ -117,6 +117,8 @@ def auth():
     # Request login (with or without API)
     resp, code = login_point(
             request.json['username'], request.json['password'])
+    if resp is None:
+        resp = {}
     # Forward response
     return jsonify(**resp), code
 
