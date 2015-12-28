@@ -27,11 +27,20 @@ bowerdir = staticdir + fconfig['bowerdir'] + '/'
 css = []
 for scss in fconfig['css']:
     css.append(bowerdir + scss)
+for scss in fconfig['customcss']:
+    css.append(staticdir + scss)
 # JS: Angular framework and app files
 js = []
 for sjs in fconfig['js']:
     js.append(bowerdir + sjs)
+for sjs in fconfig['customjs']:
+    js.append(staticdir + sjs)
 # Images
+imgs = []
+for simg in fconfig['imgs']:
+    js.append(staticdir + simg)
+print("JSON img load", imgs)
+# TO FIX!
 if 'logos' not in user_config['content']:
     user_config['content']['logos'] = [{
         "src": "static/img/default.png", "width": '90'

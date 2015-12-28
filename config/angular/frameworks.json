@@ -2,19 +2,22 @@
 // MAIN DIRS
 	"staticdir": "static",
 	"bowerdir": "bower",
-// CSS files 
-//(starting from bower dir)
+// // CSS files 
+// //(starting from bower dir)
 	"css": [
-	    "font-awesome/css/font-awesome.min.css",
-	    "bootstrap/dist/css/bootstrap.min.css",
-	    "angular-loading-bar/build/loading-bar.min.css",
-	    "animate.css/animate.min.css",
-	    "css/custom.css"
+		"font-awesome/css/font-awesome.min.css",
+		"bootstrap/dist/css/bootstrap.min.css",
+		"angular-loading-bar/build/loading-bar.min.css",
+		"animate.css/animate.min.css"
+	],
+// USER CUSTOM CSS
+	"customcss" : [
+		"css/custom.css"
 	],
 // Angular framework and app files
 //(starting from bower dir)
 	"js": [
-	    "angular/angular.min.js",
+		"angular/angular.min.js",
 	    //"angular-route/angular-route.min.js",
 	    "angular-ui-router/release/angular-ui-router.min.js",
 	    //"angular-strap/dist/angular-strap.min.js",
@@ -22,12 +25,18 @@
 	    //"angular-animate/angular-animate.min.js",
 	    "angular-sanitize/angular-sanitize.min.js",
 	    "satellizer/satellizer.min.js",
-	    "angular-loading-bar/build/loading-bar.min.js",
+	    "angular-loading-bar/build/loading-bar.min.js"
 	// JWT ?
 		//
 	// libs on demand
 	    //"moment/min/moment.min.js",
-	// Force order: the angularjs app declaration should be the first
+	],
+// USER CUSTOM APP
+	"customjs": [
+// Force order: the angularjs app declaration should be the first
 	    "app/app.js"
+	],
+	"imgs": [
+		//
 	]
 }
