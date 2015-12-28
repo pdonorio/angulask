@@ -86,7 +86,7 @@ def templating(page, framework='bootstrap', **whatever):
     tmp = whatever.copy()
     tmp.update(user_config['content'])
     templ = template_path + '/' + page
-    print("TEST!\n\n", templ, tmp)
+    #print("TEST!\n\n", templ, tmp)
     return render_template(templ, **tmp)
 
 
@@ -190,6 +190,8 @@ def fe_logout():
 @cms.route('/<path:mypath>', methods=["GET", "POST"])
 # @login_required
 def angular(mypath=None):
+    # How to understand this?
+    print("PATH!", mypath)
     return jstemplate()
 
 # ############################

@@ -4,7 +4,8 @@
 """ Configurations """
 
 import os
-import json
+# import json
+import commentjson as json
 
 #######################
 # Warning: this decides about final configuration
@@ -31,6 +32,7 @@ def read_files(path):
         filename = os.path.join(CONFIG_PATH, path, section + "." + JSON_EXT)
         with open(filename) as f:
             myjson[section] = json.load(f)
+    #print(myjson)
     return myjson
 
 # Use the function

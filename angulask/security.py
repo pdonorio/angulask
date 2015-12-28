@@ -4,7 +4,9 @@
 """ Main routes """
 
 import requests
-import simplejson as json
+import json
+# import commentjson as json
+# import simplejson as json
 from datetime import datetime
 # from flask import Response, stream_with_context
 from flask.ext.login import login_user, UserMixin
