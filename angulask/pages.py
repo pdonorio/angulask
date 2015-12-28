@@ -17,56 +17,31 @@ from . import htmlcodes as hcodes
 # Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
 
-# Static things
-staticdir = 'static/'
-bowerdir = staticdir + 'bower/'
-
-############################
-# // TO FIX:
-# ## This should depend on the chosen framework:
-# ## Bootstrap, Foundation or Material
-
+#######################################
+# Framework user configuration
+fconfig = user_config['frameworks']
+# Static directories
+staticdir = fconfig['staticdir'] + '/'
+bowerdir = staticdir + fconfig['bowerdir'] + '/'
 # CSS files
-css = [
-    bowerdir + "font-awesome/css/font-awesome.min.css",
-    bowerdir + "bootstrap/dist/css/bootstrap.min.css",
-    bowerdir + "angular-loading-bar/build/loading-bar.min.css",
-    # bowerdir + "animate.css/animate.min.css",
-    staticdir + "css/custom.css"
-]
-############################
-
-# // TO FIX READ FROM JSON
-
-# Angular framework and app files
-js = [
-    bowerdir + "angular/angular.min.js",
-    # bowerdir + "angular-route/angular-route.min.js",
-    bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
-    # bowerdir + "angular-strap/dist/angular-strap.min.js",
-    # bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
-    # bowerdir + "angular-animate/angular-animate.min.js",
-    bowerdir + "angular-sanitize/angular-sanitize.min.js",
-    bowerdir + "satellizer/satellizer.min.js",
-    bowerdir + "angular-loading-bar/build/loading-bar.min.js",
-# JWT ?
-
-# Bower libs on demand
-    # bowerdir + "moment/min/moment.min.js",
-    # Force order: the angularjs app declaration should be the first
-    staticdir + "app/app.js",
-]
-
+css = []
+for scss in fconfig['css']:
+    css.append(bowerdir + scss)
+# JS: Angular framework and app files
+js = []
+for sjs in fconfig['js']:
+    js.append(bowerdir + sjs)
 # Images
 if 'logos' not in user_config['content']:
     user_config['content']['logos'] = [{
         "src": "static/img/default.png", "width": '90'
     }]
 
-############################
+#######################################
+# ## JS BLUEPRINTS
+
 # // TO FIX:
 # ## This should load only a specified angular blueprint
-
 # Dynamically load all other angularjs files
 prefix = __package__
 for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
@@ -75,12 +50,13 @@ for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
     if jfile not in js:
         js.append(jfile)
 # // TO FIX -END
-############################
 
+#######################################
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
 
 
+#######################################
 def templating(page, framework='bootstrap', **whatever):
     template_path = 'frameworks' + '/' + framework
     tmp = whatever.copy()

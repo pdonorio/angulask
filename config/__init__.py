@@ -26,13 +26,14 @@ for key in os.environ.keys():
 # Read user config
 def read_files(path):
     """ All user specifications """
-    sections = ['content', 'models', 'options']
+    sections = ['content', 'models', 'options', 'frameworks']
     myjson = {}
     for section in sections:
         filename = os.path.join(CONFIG_PATH, path, section + "." + JSON_EXT)
         with open(filename) as f:
             myjson[section] = json.load(f)
-    #print(myjson)
+        # if section == 'frameworks':
+        #     print(myjson[section])
     return myjson
 
 # Use the function
