@@ -9,6 +9,7 @@ import csv
 from flask import Flask, request as req
 from sqlalchemy import inspect
 from config import get_logger
+from . import htmlcodes as hcodes
 from .pages import cms
 from .basemodel import db, lm, User, MyModel
 from . import CONFIG_MODULE, m, pypages as custom_views
@@ -18,6 +19,19 @@ logger = get_logger(__name__)
 
 ################
 def init_insert(db, userconfig):
+    """
+    This function has been prepared originally to load data from csv
+    and inject it at server startup inside the main data model.
+
+    I was assumning the server to work directly with a database,
+    sqllite or postgres.
+
+    Things have changed, and angular works with APIs, which are elastic
+    and modular and granular. So data is no longer needed to be created here.
+
+    This has become deprecated and WILL BE REMOVED SOME TIME SOON
+    """
+
     # Add at least the first user
     user = User(**userconfig['BASIC_USER'])
     db.session.add(user)
@@ -71,8 +85,6 @@ def create_app():
 
     # Database
     db.init_app(app)
-
-    #app.logger.setLevel(logging.NOTSET)
     # Add basic things to this app
     app.register_blueprint(cms)
     # Dynamically load all custom blueprints from pypages module
@@ -92,15 +104,12 @@ def create_app():
 
     # Application context
     with app.app_context():
-# // TO FIX:
-# Drop tables and populate with basic data, only on request
-# e.g. startup option
-        logger.critical("Dropping DB")
-        db.drop_all()
         db.create_all()
-        logger.warning("Updating DB/tables")
+        # OLD & BAD
+        #logger.critical("Dropping DB")
+        #db.drop_all()
+        #init_insert(db, app.config)
         logger.info("Initialized Database")
-        init_insert(db, app.config)
 
 # SANITY CHECKS?
         # from .sanity_checks import is_sane_database
@@ -111,8 +120,10 @@ def create_app():
     # Logging
     @app.after_request
     def log_response(resp):
-        logger.info("{} {} {}\n{}".format(
-                        req.method, req.url, req.data, resp))
+        log = logger.info
+        if resp.status_code == hcodes.HTTP_NOT_MODIFIED:
+            log = logger.debug
+        log("{} {} {} {}".format(req.method, req.url, req.data, resp))
         return resp
 
     return app
