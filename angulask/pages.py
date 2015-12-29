@@ -5,8 +5,7 @@
 
 from __future__ import absolute_import
 from pathlib import Path
-from flask import Blueprint, \
-    render_template, request, redirect, url_for, jsonify, g
+from flask import Blueprint, render_template, request, jsonify, g
 from flask.ext.login import logout_user, current_user
 from .basemodel import user_config
 from .security import login_point
@@ -90,13 +89,13 @@ def before_request():
     g.user = current_user
 
 
-@cms.route('/helloworld')
-def home():
-    return templating('welcome.html')
-
-
 @cms.route('/auth', methods=['POST'])
 def auth():
+    """
+    IMPORTANT: This route is a proxy for JS code to APIs login.
+    With this we can 'intercept' the request and save extra info on server
+    side, such as: ip, user, token
+    """
     # Verify POST data
     if not ('username' in request.json and 'password' in request.json):
         return "No valid (json) data credentials", hcodes.HTTP_BAD_UNAUTHORIZED
@@ -109,15 +108,20 @@ def auth():
     return jsonify(**resp), code
 
 
+@cms.route('/felogout')
+def logout():
+    """
+    A route for logout with both JS and Python.
+    Note: JS has to take the responsibility of logging out Python too, here.
+    """
+    logout_user()
+    return True
+    # return redirect(url_for('.home'))
+
+
 @cms.route('/register')
 def register():
     return "THIS IS YET TO DO (also 'forgot password')"
-
-
-@cms.route('/felogout')
-def fe_logout():
-    logout_user()
-    return redirect(url_for('.home'))
 ################################################
 
 
@@ -172,13 +176,18 @@ def fe_logout():
 
 
 ######################################################
-@cms.route('/', methods=["GET", "POST"])
-@cms.route('/<path:mypath>', methods=["GET", "POST"])
-# @login_required
-def angular(mypath=None):
-    # How to understand this?
+@cms.route('/', methods=["GET"])
+@cms.route('/<path:mypath>', methods=["GET"])
+def home(mypath=None):
+    """
+    The main and only real HTML route in this server.
+    The only real purpose is to serve angular pages and routes.
+    """
     logger.debug("Using angular route. PATH is '%s'" % mypath)
-    return jstemplate()
+    if mypath is None:
+        return templating('welcome.html')
+    else:
+        return jstemplate()
 
 # ############################
 # # Dirty fix for URL BASE in angular HTML5mode

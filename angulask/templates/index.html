@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="web">
   <head>
-    <title>{{ project }}: {% block title %}{% endblock %}</title>
+    <title>{{ project }}{% if self.title() %}:{% endif %} {% block title %}{% endblock %}</title>
     <!-- meta -->
     <meta charset="utf-8">
     <meta name="viewport"
@@ -15,6 +15,7 @@
     <base href="{{ mydomain }}"/>
 {%- endif %}
     <!-- styles -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {%- for css in stylesheets %}
     <link rel="stylesheet" href="{{ css }}" />
 {%- endfor -%}

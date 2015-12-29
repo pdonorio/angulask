@@ -1,11 +1,10 @@
 
 TO DO:
 
-☐ auth
-  ☐ check storage
-    ☐ otherwise redirect to (internal angular) login
-  ☐ save in flask db ip
-    ☐ prompt login if no token found for that ip?
+  ☐ auth
+    ✔ check satellizer @done (15-12-29 15:12)
+      ✔ otherwise redirect to (internal angular) login @done (15-12-29 15:12)
+    ☐ logout proxy, which logsout also APIs and is called by satellizer
 - Rest JWT
   ☐ informations to pass along? user?
 - css frameworks
