@@ -3,17 +3,19 @@
 
 """ Main routes """
 
+from __future__ import absolute_import
 from pathlib import Path
-
-from flask import Blueprint, current_app, \
-    render_template, request, flash, redirect, url_for, jsonify, g
-from flask.ext.login import logout_user, current_user, login_required
-#from werkzeug import secure_filename
-
-from .basemodel import db, user_config
+from flask import Blueprint, \
+    render_template, request, redirect, url_for, jsonify, g
+from flask.ext.login import logout_user, current_user
+from .basemodel import user_config
 from .security import login_point
 from . import htmlcodes as hcodes
+from config import get_logger
 
+logger = get_logger(__name__)
+
+#######################################
 # Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
 
@@ -39,7 +41,7 @@ for sjs in fconfig['customjs']:
 imgs = []
 for simg in fconfig['imgs']:
     js.append(staticdir + simg)
-print("JSON img load", imgs)
+logger.debug("JSON img load: %s" % imgs)
 # TO FIX!
 if 'logos' not in user_config['content']:
     user_config['content']['logos'] = [{
@@ -71,7 +73,6 @@ def templating(page, framework='bootstrap', **whatever):
     tmp = whatever.copy()
     tmp.update(user_config['content'])
     templ = template_path + '/' + page
-    #print("TEST!\n\n", templ, tmp)
     return render_template(templ, **tmp)
 
 
@@ -176,7 +177,7 @@ def fe_logout():
 # @login_required
 def angular(mypath=None):
     # How to understand this?
-    print("PATH!", mypath)
+    logger.debug("Using angular route. PATH is '%s'" % mypath)
     return jstemplate()
 
 # ############################

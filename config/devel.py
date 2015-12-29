@@ -4,7 +4,9 @@
 """ Development configuration """
 
 import os
-from . import BaseConfig
+from config import BaseConfig, get_logger
+
+logger = get_logger(__name__)
 
 
 class MyConfig(BaseConfig):
@@ -16,4 +18,4 @@ class MyConfig(BaseConfig):
     UPLOAD_FOLDER = '/uploads'
     ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-    print("Development mode... Switching to sqllite.")
+    logger.info("Current config: DEVEL. Keepeing sqllite db.")

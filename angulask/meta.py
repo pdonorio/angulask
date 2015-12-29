@@ -3,8 +3,12 @@
 
 """ Meta thinking: python introspection """
 
-from importlib import import_module
+from __future__ import absolute_import
 import pkgutil
+from importlib import import_module
+from config import get_logger
+
+logger = get_logger(__name__)
 
 
 ################################
@@ -27,7 +31,7 @@ class Meta(object):
                 in pkgutil.iter_modules(package.__path__):
             if not ispkg:
                 self._submodules.append(modname)
-                print("Found %s submodule inside %s" %
+                logger.info("Found %s submodule inside %s" %
                              (modname, package.__name__))
         return self._submodules
 
@@ -59,7 +63,7 @@ class Meta(object):
             # Meta language for dinamically import
             module = import_module(modulestring)
         except ImportError as e:
-            print("Failed to load resource: " + str(e))
+            logger.warning("Failed to load resource: " + str(e))
         return module
 
     def get_class_from_string(self, classname, module):
@@ -70,6 +74,6 @@ class Meta(object):
             # Meta language for dinamically import
             myclass = getattr(module, classname)
         except AttributeError as e:
-            print("Failed to load resource: " + str(e))
+            logger.warning("Failed to load resource: " + str(e))
 
         return myclass

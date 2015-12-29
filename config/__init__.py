@@ -4,11 +4,14 @@
 """ Configurations """
 
 import os
+import logging
+from logging.config import fileConfig
 # import json
 import commentjson as json
 
 #######################
 # Warning: this decides about final configuration
+DEBUG = True
 PATH = 'angular'   # Main directory where all conf files are found
 # Warning: this decides about final configuration
 #######################
@@ -20,6 +23,9 @@ BACKEND = False
 for key in os.environ.keys():
     if 'backend' in key.lower():
         BACKEND = True
+
+
+########################################
 
 
 ########################################
@@ -43,13 +49,9 @@ user_config = read_files(PATH)
 ########################################
 class BaseConfig(object):
 
-    DEBUG = os.environ.get('APP_DEBUG', False)
+    DEBUG = os.environ.get('APP_DEBUG', DEBUG)
     TESTING = False
     MYCONFIG_PATH = os.path.join(CONFIG_PATH, PATH)
-
-    #SECURITY_LOGIN_URL
-
-    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     BASE_DB_DIR = '/dbs'
     SQLLITE_DBFILE = 'frontend.db'
     dbfile = os.path.join(BASE_DB_DIR, SQLLITE_DBFILE)
@@ -66,3 +68,41 @@ class BaseConfig(object):
         'password': user_config['content'].get('password', 'test'),
         'email': user_config['content'].get('email', 'idonotexist@test.com')
     }
+
+########################################
+# LOGGING
+if BaseConfig.DEBUG:
+    LOG_LEVEL = logging.DEBUG
+else:
+    LOG_LEVEL = logging.INFO
+# Set default logging handler to avoid "No handler found" warnings.
+try:  # Python 2.7+
+    from logging import NullHandler
+except ImportError:
+    class NullHandler(logging.Handler):
+        def emit(self, record):
+            pass
+
+# Start with null handler
+logging.getLogger(__name__).addHandler(NullHandler())
+# Read format and other things from file configuration
+CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
+fileConfig(os.path.join(CURRENT_DIR, 'logging.ini'))
+
+
+def get_logger(name):
+    """ Recover the right logger + set a proper specific level """
+    logger = logging.getLogger(name)
+    logger.setLevel(LOG_LEVEL)
+    return logger
+
+
+def silence_loggers():
+    root_logger = logging.getLogger()
+    first = True
+    for handler in root_logger.handlers:
+        print("HANDLER", handler)
+        if first:
+            first = False
+            continue
+        root_logger.removeHandler(handler)

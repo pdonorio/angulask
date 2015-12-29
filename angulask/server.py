@@ -3,15 +3,17 @@
 
 """ Factory and blueprints patterns """
 
+from __future__ import absolute_import
 import os
-import logging
 import csv
 from flask import Flask, request as req
 from sqlalchemy import inspect
-from config import BACKEND
+from config import get_logger
 from .pages import cms
 from .basemodel import db, lm, User, MyModel
 from . import CONFIG_MODULE, m, pypages as custom_views
+
+logger = get_logger(__name__)
 
 
 ################
@@ -70,7 +72,7 @@ def create_app():
     # Database
     db.init_app(app)
 
-    app.logger.setLevel(logging.NOTSET)
+    #app.logger.setLevel(logging.NOTSET)
     # Add basic things to this app
     app.register_blueprint(cms)
     # Dynamically load all custom blueprints from pypages module
@@ -81,7 +83,7 @@ def create_app():
         try:
             app.register_blueprint(module.bp)
         except Exception:
-            app.logger.warning(
+            logger.warning(
                 "OOPS: Could not find 'bp' inside module '%s'" % module_name)
 
     # Flask LOGIN
@@ -93,11 +95,11 @@ def create_app():
 # // TO FIX:
 # Drop tables and populate with basic data, only on request
 # e.g. startup option
-        print("Dropping DB")
+        logger.critical("Dropping DB")
         db.drop_all()
         db.create_all()
-        print("Updating DB/tables")
-        print("INIT DB")
+        logger.warning("Updating DB/tables")
+        logger.info("Initialized Database")
         init_insert(db, app.config)
 
 # SANITY CHECKS?
@@ -109,7 +111,7 @@ def create_app():
     # Logging
     @app.after_request
     def log_response(resp):
-        app.logger.info("{} {} {}\n{}".format(
+        logger.info("{} {} {}\n{}".format(
                         req.method, req.url, req.data, resp))
         return resp
 

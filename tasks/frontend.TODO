@@ -35,8 +35,8 @@ ADD PAGE, THE PROTOCOL:
   ☐ add angular bp/dir
   ☐ add angular templates
 
-☐ A good old logger... PLEASE!
-   ☐ then fix back rest-mock/models.py
+✔ A good old logger... PLEASE! @done (15-12-29 09:24)
+   ✔ then fix back rest-mock/models.py @done (15-12-29 09:24)
  ☐ Flask auth blueprint (login part)
 ☐ CSS framework choise
   ✔ switch to materialize @done (15-12-12 20:14)

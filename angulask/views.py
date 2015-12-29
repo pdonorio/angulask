@@ -11,6 +11,9 @@ from . import htmlcodes as hc
 from flask import Blueprint, render_template, make_response
 from jinja2 import TemplateNotFound
 from flask_restful import Api, Resource
+from config import get_logger
+
+logger = get_logger(__name__)
 
 CUSTOM_TEMPLATES = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
@@ -23,7 +26,7 @@ CUSTOM_TEMPLATES = os.path.join(
 def generate_blueprint(module='module.someviews', classes=[]):
     """ Using restful blueprint for all classes """
 
-    # Recovering the right path for custom templates
+    # Recovering the right path for custom templates
     rev = module[::-1]
     name = rev[:rev.index('.')][::-1]
     path = os.path.join(CUSTOM_TEMPLATES, name)
@@ -32,7 +35,7 @@ def generate_blueprint(module='module.someviews', classes=[]):
     rest = Api(bp)
     # Add resources
     for view in classes:
-        print("Adding class '%s' to blueprint '%s'" % (view, name))
+        logger.info("Adding class '%s' to blueprint '%s'" % (view, name))
         view._tpath = path
 # IS THIS ENOUGH?
         rest.add_resource(view, view().endpoint())
