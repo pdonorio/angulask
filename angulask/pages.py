@@ -5,7 +5,8 @@
 
 from __future__ import absolute_import
 from pathlib import Path
-from flask import Blueprint, render_template, request, jsonify, g
+from flask import Blueprint, render_template, request, \
+    jsonify, redirect, url_for, g
 from flask.ext.login import logout_user, current_user
 from .basemodel import user_config
 from .security import login_point
@@ -108,15 +109,15 @@ def auth():
     return jsonify(**resp), code
 
 
-@cms.route('/felogout')
-def logout():
-    """
-    A route for logout with both JS and Python.
-    Note: JS has to take the responsibility of logging out Python too, here.
-    """
-    logout_user()
-    return True
-    # return redirect(url_for('.home'))
+# @cms.route('/loggedout')
+# def logout():
+#     """
+#     A route for logout with both JS and Python.
+#     Note: JS has to take the responsibility of logging out Python too, here.
+#     """
+#     logout_user()
+#     return jstemplate()
+#     # return redirect(url_for('.home'))
 
 
 @cms.route('/register')
@@ -186,8 +187,9 @@ def home(mypath=None):
     logger.debug("Using angular route. PATH is '%s'" % mypath)
     if mypath is None:
         return templating('welcome.html')
-    else:
-        return jstemplate()
+    elif mypath == 'loggedout':
+        logout_user()
+    return jstemplate()
 
 # ############################
 # # Dirty fix for URL BASE in angular HTML5mode

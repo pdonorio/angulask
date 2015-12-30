@@ -12,13 +12,8 @@ TO DO:
 - Add pages
   ☐ with ease
 
-
-ADD PAGE, THE PROTOCOL:
-  ☐ add python file (blueprint) in custom
-    ☐ add button in menu?
-  ☐ add python templates in a dir with same name as python file
-  ☐ add angular bp/dir
-  ☐ add angular templates
+  ☐ ui router pitfall
+  http://www.codelord.net/2015/06/02/angularjs-pitfalls-using-ui-routers-resolve/
 
 ✔ A good old logger... PLEASE! @done (15-12-29 09:24)
    ✔ then fix back rest-mock/models.py @done (15-12-29 09:24)
