@@ -18,20 +18,9 @@
 </a>
 {% endfor -%}
 <a class="navbar-brand pull-left" href="/"> <i class="fa fa-briefcase"></i> {{ project }} </a>
-<ul class="nav navbar-nav">
-<!--
-{%- for menu in menus %}
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('.' + menu) }}"> {{ menu.capitalize() }} </a>
-    </li>
-{%- endfor -%}
--->
 {% if g.user.is_authenticated %}
-<li class="nav-item">
-    <a class="nav-link" ui-sref="logged.logout">Log out</a>
-</li>
+<div ui-view='menu'></div>
 {% endif %}
-</ul>
 </nav>
 {% endblock %}
 

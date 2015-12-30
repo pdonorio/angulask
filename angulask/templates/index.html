@@ -27,11 +27,10 @@
 
 <!-- Wrap all page content here -->
 <div id="wrap">
-
     {%- block topbar %}{% endblock -%}
 
-<!-- Begin page content -->
-<main id="content" role="main" class="container"> <br>
+    <!-- Begin page content -->
+    <main id="content" role="main" class="container"> <br>
     {%- with messages = get_flashed_messages(with_categories=true) %}
     <!-- Possible alerts: info success warning danger -->
         {% if messages %}
@@ -49,7 +48,6 @@
     {% endwith -%}
 
     {%- block content %}{% endblock -%}
-
     </main>
 </div>
 
