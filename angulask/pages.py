@@ -46,7 +46,6 @@ for sjs in fconfig['customjs']:
 # Fonts
 fonts = []
 for sfont in fconfig['fonts']:
-    print("TEST\n\n\nfont *%s*" % sfont)
     # This should be an external url
     fonts.append(sfont)
 # Images

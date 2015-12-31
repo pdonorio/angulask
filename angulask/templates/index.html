@@ -29,16 +29,13 @@
 
 <body {%- block bodyclass %}{% endblock -%} {% block ngapp %}{% endblock -%} >
 
-<!-- Wrap all page content here -->
-<div id="wrap">
-    {%- block topbar %}{% endblock -%}
-    <!-- Begin page content -->
-    <main id="content" role="main" class="container"> <br>
-    {%- block flashmessages %}{% endblock -%}
+{%- block topbar %}{% endblock -%}
 
-    {%- block content %}{% endblock -%}
-    </main>
-</div>
+<!-- PAGE CONTENT -->
+<main id="content" role="main">
+{%- block flashmessages %}{% endblock -%}
+{%- block content %}{% endblock -%}
+</main>
 
 {%- block footer %}{%- endblock %}
 <!-- javascript -->
@@ -47,14 +44,16 @@
 {% endfor -%}
 <!-- javascript -->
 
-<!--
-  Google Analytics - Change UA-XXXXX-X to be your site's ID
-  <script>
+<script type="text/javascript">
+/*
+  //Google Analytics - Change UA-XXXXX-X to be your site's ID
   window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
   Modernizr.load({
     load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
   });
-  </script>
--->
+*/
+{%- block javascript %}{%- endblock %}
+</script>
+
 </body>
 </html>
