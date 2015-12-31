@@ -11,9 +11,10 @@ from flask.ext.login import logout_user, current_user
 from .basemodel import user_config
 from .security import login_point
 from . import htmlcodes as hcodes
-from config import get_logger
+from config import get_logger, FRAMEWORKS
 
 logger = get_logger(__name__)
+CURRENT_FRAMEWORK = None
 
 #######################################
 # Blueprint for base pages, if any
@@ -35,8 +36,19 @@ for scss in fconfig['customcss']:
 js = []
 for sjs in fconfig['js']:
     js.append(bowerdir + sjs)
+    if CURRENT_FRAMEWORK is None:
+        for frame in FRAMEWORKS:
+            if frame in sjs:
+                CURRENT_FRAMEWORK = frame
+                logger.info("Found framework '%s'" % CURRENT_FRAMEWORK)
 for sjs in fconfig['customjs']:
     js.append(staticdir + sjs)
+# Fonts
+fonts = []
+for sfont in fconfig['fonts']:
+    print("TEST\n\n\nfont *%s*" % sfont)
+    # This should be an external url
+    fonts.append(sfont)
 # Images
 imgs = []
 for simg in fconfig['imgs']:
@@ -65,10 +77,12 @@ for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
 #######################################
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
+user_config['content']['images'] = imgs
+user_config['content']['htmlfonts'] = fonts
 
 
 #######################################
-def templating(page, framework='bootstrap', **whatever):
+def templating(page, framework=CURRENT_FRAMEWORK, **whatever):
     template_path = 'frameworks' + '/' + framework
     tmp = whatever.copy()
     tmp.update(user_config['content'])

@@ -19,33 +19,22 @@
 {%- for css in stylesheets %}
     <link rel="stylesheet" href="{{ css }}" />
 {%- endfor -%}
-{% block customstylesheets %}{% endblock %}
+{%- block customstylesheets %}{% endblock %}
+    <!-- fonts (if any)-->
+{%- for font in htmlfonts %}
+    <link rel="stylesheet" href="{{ font|safe }}" />
+{%- endfor %}
     <!-- styles -->
-
 </head>
+
 <body {%- block bodyclass %}{% endblock -%} {% block ngapp %}{% endblock -%} >
 
 <!-- Wrap all page content here -->
 <div id="wrap">
     {%- block topbar %}{% endblock -%}
-
     <!-- Begin page content -->
     <main id="content" role="main" class="container"> <br>
-    {%- with messages = get_flashed_messages(with_categories=true) %}
-    <!-- Possible alerts: info success warning danger -->
-        {% if messages %}
-            {% for category, message in messages %}
-                {% if category == 'message' %}
-                    <div class="alert alert-info alert-dismissible" role="alert">
-                {% else %}
-                    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
-                {% endif %}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{ message }}
-                </div>
-            {% endfor -%}
-        {% endif -%}
-    {% endwith -%}
+    {%- block flashmessages %}{% endblock -%}
 
     {%- block content %}{% endblock -%}
     </main>
@@ -67,6 +56,5 @@
   });
   </script>
 -->
-
 </body>
 </html>

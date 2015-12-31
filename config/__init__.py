@@ -18,6 +18,7 @@ PATH = 'angular'   # Main directory where all conf files are found
 
 CONFIG_PATH = 'config'
 JSON_EXT = 'json'
+FRAMEWORKS = ['bootstrap', 'materialize', 'foundation']
 
 BACKEND = False
 for key in os.environ.keys():

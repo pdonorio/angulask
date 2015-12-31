@@ -1,25 +1,4 @@
 Some:
-  ✔ auth @done (15-12-30 16:46)
-    ✔ check satellizer @done (15-12-29 15:12)
-      ✔ otherwise redirect to (internal angular) login @done (15-12-29 15:12)
-✔ A good old logger... PLEASE! @done (15-12-29 09:24)
-   ✔ then fix back rest-mock/models.py @done (15-12-29 09:24)
-    ✔ logout proxy, which logsout also APIs and is called by satellizer @done (15-12-30 16:46)
-  ✔ switch to materialize @done (15-12-12 20:14)
-  ✔ jinja 2 whitespace problems @done (15-12-16 14:21)
-    http://jinja.pocoo.org/docs/dev/templates/#whitespace-control
-  ✘ prepare python page @cancelled (15-12-30 16:48)
-    ✘ add template @cancelled (15-12-30 16:48)
-✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
- ✔ Angulask login @done (15-12-16 18:30)
- ✔ If backend @done (15-12-17 13:54)
-✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
-  http://blog.luisrei.com/articles/flaskrest.html
-  ✔ python module with a blueprint @done (15-12-12 00:04)
-    ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
-    ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
-   ✘ example in docs for adding a page and template @cancelled (15-12-30 16:46)
-
 - Rest JWT
   ☐ informations to pass along? user?
 - Add pages
@@ -88,3 +67,24 @@ Completed:
 ✔ clue to check dbs @done (15-12-19 09:54)
  ✔ broken angular view @done (15-12-19 09:56)
 ✔ angular ui-router via bower @done (15-11-12 19:14)
+  ✔ auth @done (15-12-30 16:46)
+    ✔ check satellizer @done (15-12-29 15:12)
+      ✔ otherwise redirect to (internal angular) login @done (15-12-29 15:12)
+✔ A good old logger... PLEASE! @done (15-12-29 09:24)
+   ✔ then fix back rest-mock/models.py @done (15-12-29 09:24)
+    ✔ logout proxy, which logsout also APIs and is called by satellizer @done (15-12-30 16:46)
+  ✔ switch to materialize @done (15-12-12 20:14)
+  ✔ jinja 2 whitespace problems @done (15-12-16 14:21)
+    http://jinja.pocoo.org/docs/dev/templates/#whitespace-control
+  ✘ prepare python page @cancelled (15-12-30 16:48)
+    ✘ add template @cancelled (15-12-30 16:48)
+✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
+ ✔ Angulask login @done (15-12-16 18:30)
+ ✔ If backend @done (15-12-17 13:54)
+✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
+  http://blog.luisrei.com/articles/flaskrest.html
+  ✔ python module with a blueprint @done (15-12-12 00:04)
+    ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
+    ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
+   ✘ example in docs for adding a page and template @cancelled (15-12-30 16:46)
+
