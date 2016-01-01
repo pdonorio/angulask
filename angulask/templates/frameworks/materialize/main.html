@@ -11,8 +11,5 @@
 {% endblock %}
 
 {%- if footer %}{% block footer %}
-<footer class="footer">
-  <p> {{ footer | safe }} </p>
-  {% block extrafootercontent %}{% endblock %}
-</footer>
+{{footer|safe}}
 {% endblock %}{% endif -%}
