@@ -4,17 +4,21 @@ main_command=" ./app.py"
 
 if [ "$1" == "devel" ]; then
     APP_MODE='development'
+elif [ "$APP_MODE" == "" ]; then
+    APP_MODE='production'
 fi
+
+echo -n -e "#BOOTSTRAP bash:\t"
 
 if [ "$APP_MODE" == "debug" ]; then
     echo "[=== DEBUG MODE ===]"
     sleep infinity
 elif [ "$APP_MODE" == "production" ]; then
-    echo "Production !"
+    echo "[=== PRODUCTION MODE ===]"
 ## NGINX + WSGI?
     FLASK_CONFIGURATION="$APP_MODE" APP_DEBUG="false" $main_command
 else
-    echo "Development"
+    echo "[=== DEVELOPMENT MODE ===]"
     FLASK_CONFIGURATION="$APP_MODE" APP_DEBUG="true" $main_command
 fi
 

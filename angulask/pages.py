@@ -3,62 +3,65 @@
 
 """ Main routes """
 
-import os
-import glob
+from __future__ import absolute_import
 from pathlib import Path
-from flask import Blueprint, current_app, \
-    render_template, request, flash, redirect, url_for, g
-from flask.ext.login import login_user, \
-    logout_user, current_user, login_required
-from werkzeug import secure_filename
-from .basemodel import db, lm, create_table, Col, \
-    User, MyModel, MyTable, \
-    user_config, insertable, selected
-from . import forms
+from flask import Blueprint, render_template, request, \
+    jsonify, redirect, url_for, g
+from flask.ext.login import logout_user, current_user
+from .basemodel import user_config
+from .security import login_point
+from . import htmlcodes as hcodes
+from config import get_logger, FRAMEWORKS
 
+logger = get_logger(__name__)
+CURRENT_FRAMEWORK = None
+
+#######################################
+# Blueprint for base pages, if any
 cms = Blueprint('pages', __name__)
 
-# Static things
-staticdir = 'static/'
-bowerdir = staticdir + 'bower/'
-
-############################
-# // TO FIX:
-# ## This should depend on the chosen framework:
-# ## Bootstrap, Foundation or Material
-
+#######################################
+# Framework user configuration
+fconfig = user_config['frameworks']
+# Static directories
+staticdir = fconfig['staticdir'] + '/'
+bowerdir = staticdir + fconfig['bowerdir'] + '/'
 # CSS files
-css = [
-    bowerdir + "font-awesome/css/font-awesome.min.css",
-    bowerdir + "bootstrap/dist/css/bootstrap.min.css",
-    bowerdir + "animate.css/animate.min.css",
-    staticdir + "css/custom.css"
-]
-############################
-
-# Angular framework and app files
-js = [
-    bowerdir + "angular/angular.min.js",
-    bowerdir + "angular-animate/angular-animate.min.js",
-    bowerdir + "angular-cookies/angular-cookies.min.js",
-    bowerdir + "angular-sanitize/angular-sanitize.min.js",
-    bowerdir + "angular-ui-router/release/angular-ui-router.min.js",
-    bowerdir + "lodash/lodash.min.js",
-    bowerdir + "restangular/dist/restangular.min.js",
-    bowerdir + "angular-strap/dist/angular-strap.min.js",
-    bowerdir + "angular-strap/dist/angular-strap.tpl.min.js",
-    bowerdir + "moment/min/moment.min.js",
-    # Force order: the angularjs app declaration should be the first
-    staticdir + "app/app.js",
-]
-
+css = []
+for scss in fconfig['css']:
+    css.append(bowerdir + scss)
+for scss in fconfig['customcss']:
+    css.append(staticdir + scss)
+# JS: Angular framework and app files
+js = []
+for sjs in fconfig['js']:
+    js.append(bowerdir + sjs)
+    if CURRENT_FRAMEWORK is None:
+        for frame in FRAMEWORKS:
+            if frame in sjs:
+                CURRENT_FRAMEWORK = frame
+                logger.info("Found framework '%s'" % CURRENT_FRAMEWORK)
+for sjs in fconfig['customjs']:
+    js.append(staticdir + sjs)
+# Fonts
+fonts = []
+for sfont in fconfig['fonts']:
+    # This should be an external url
+    fonts.append(sfont)
 # Images
+imgs = []
+for simg in fconfig['imgs']:
+    js.append(staticdir + simg)
+logger.debug("JSON img load: %s" % imgs)
+# TO FIX!
 if 'logos' not in user_config['content']:
     user_config['content']['logos'] = [{
         "src": "static/img/default.png", "width": '90'
     }]
 
-############################
+#######################################
+# ## JS BLUEPRINTS
+
 # // TO FIX:
 # ## This should load only a specified angular blueprint
 # Dynamically load all other angularjs files
@@ -69,362 +72,162 @@ for pathfile in Path(prefix + '/' + staticdir + '/app').glob('**/*.js'):
     if jfile not in js:
         js.append(jfile)
 # // TO FIX -END
-############################
 
+#######################################
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
-
-# ######################################################
-# #http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/#caching-decorator
-# from functools import wraps
-
-# def cached(timeout=5 * 1, key='view/%s'):
-#     def decorator(f):
-#         @wraps(f)
-#         def decorated_function(*args, **kwargs):
-#             cache_key = key % request.path
-#             rv = cache.get(cache_key)
-#             if rv is not None:
-#                 return rv
-#             rv = f(*args, **kwargs)
-#             cache.set(cache_key, rv, timeout=timeout)
-#             return rv
-#         return decorated_function
-#     return decorator
-
-######################################################
+user_config['content']['images'] = imgs
+user_config['content']['htmlfonts'] = fonts
 
 
-def single_element_insert_db(iform, obj):
-    iform.populate_obj(obj)
-# // TO FIX:
-# Does not work as autoincrement
-    # Id is supposed to exist, and also be autoincrement:
-    obj.id = ''
-    db.session.add(obj)
-    db.session.commit()
+#######################################
+def templating(page, framework=CURRENT_FRAMEWORK, **whatever):
+    template_path = 'frameworks' + '/' + framework
+    tmp = whatever.copy()
+    tmp.update(user_config['content'])
+    templ = template_path + '/' + page
+    return render_template(templ, **tmp)
 
 
-def row2dict(r):
-    """ Convert a single sqlalchemy row into a dictionary """
-    # http://stackoverflow.com/a/1960546/2114395
-    return {c.name: str(getattr(r, c.name)) for c in r.__table__.columns}
+def jstemplate(title='App', mydomain='/'):
+    """ If you decide a different domain, use slash as end path,
+        e.g. /app/ """
+    return templating('enable_angular.html', mydomain=mydomain, jstitle=title)
 
 
-# ######################################################
-@cms.route('/view', methods=["GET", "POST"])
-@cms.route('/view/<int:id>', methods=["GET"])
-@login_required
-def view(id=None):
-    status = "View"
-    template = 'forms/view.html'
-    mytable = None
-
-    # SORT
-    sort_field = request.args.get('sort', 'id')
-    reverse = (request.args.get('direction', 'asc') == 'desc')
-    field = getattr(MyModel, sort_field)
-    if reverse:
-        from sqlalchemy import desc
-        field = desc(field)
-
-    ####################################################
-    # SINGLE VIEW
-    if id is not None:
-        template = 'forms/singleview.html'
-        status = 'Single ' + status + \
-            sort_field + ' for Record <b>#' + str(id) + '</b>'
-        items = [MyModel.query.filter(
-            MyModel.id == id).first()._asdict()]
-        # Upload
-        uploaded = request.args.get('uploaded')
-        if uploaded is not None:
-            flash("Uploaded file '%s'" % uploaded, 'success')
-        # List of available files
-        ufolder = current_app.config['UPLOAD_FOLDER']
-        mydir = os.path.join(ufolder, str(id)) + '/'
-        flist = glob.glob(mydir + '*')
-        if flist:
-            TableCls = create_table("file_list")
-            TableCls.add_column('files', Col('Already associated files:'))
-            TableCls.classes = ['table', 'table-hover']
-            tcontent = []
-            for f in flist:
-                tcontent.append({'files': f.replace(mydir,'')})
-            mytable = TableCls(tcontent)
-
-    # SINGLE VIEW
-    ####################################################
-
-    ####################################################
-    # NORMAL VIEW (all elements)
-    else:
-        # SQLalchemy query (sorted)
-        data = MyModel.query.order_by(field)
-        items = []
-        for row in data:
-            pieces = row2dict(row)
-            final = {}
-            for key, value in pieces.items():
-                if key in selected:
-                    final[key] = value
-            items.append(final)
-    # NORMAL VIEW (all elements)
-    ####################################################
-
-    print("\n\nTEST\n\n", user_config['content'])
-
-    return render_template(template,
-        status=status, formname='view', dbitems=items, id=id,
-        table=MyTable(items, sort_by=sort_field, sort_reverse=reverse),
-        ftable=mytable,
-        **user_config['content'])
-
-template = 'forms/insert_search.html'
-
-
-@cms.route('/insert', methods=["GET", "POST"])
-def insert():
-    status = "Waiting data to save"
-    iform = forms.DataForm()
-    if iform.validate_on_submit():
-        # Handle user model
-        single_element_insert_db(iform, MyModel())
-        flash("User saved", 'success')
-        status = "Saved"
-
-    return render_template(template,
-        status=status, form=iform, formname='insert',
-        selected=insertable, keyfield =user_config['models'].get('key_field'),
-        **user_config['content'])
-
-
-@cms.route('/search', methods=["GET", "POST"])
-def search():
-    status = "Waiting data to search"
-    iform = forms.DataForm()
-    if iform.validate_on_submit():
-        status = "Work in progress"
-        # flash("User saved", 'success')
-
-    return render_template(template,
-        status=status, form=iform, formname='search',
-        **user_config['content'])
-
-################
-# Basic interface routes ####
-################
-
-@cms.route('/')
-@cms.route('/home')
-def home():
-    return render_template('pages/placeholder.home.html',
-        **user_config['content'])
-
-@cms.route('/about')
-def about():
-    return render_template('pages/placeholder.about.html',
-        **user_config['content'])
-
-
-###########################################################
-# LOGIN!
-###########################################################
-
-# @cms.route('/login', methods=['GET','POST'])
-# def login():
-
-#     form = forms.LoginForm(request.form)
-
-# #http://flask.pocoo.org/snippets/64/
-# # NOT WORKING?
-#     if form.validate_on_submit():
-#         flash(u'Successfully logged in as %s' % form.user.username)
-#         session['user_id'] = form.user.id
-#         print("\n\n\nLOGGED!!\n\n\n")
-
-#         # Redirect to index?
-#         return redirect(url_for('.home'))
-
-#         # Redirect to last page accessed?
-#         #return form.redirect('index')
-#     return render_template('forms/login.html', form=form)
-
-
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
-
-
+# #################################
+# # BASIC INTERFACE ROUTES
 @cms.before_request
 def before_request():
+    """ Save the current user as the global user for each request """
     g.user = current_user
 
 
-
-@cms.route('/login', methods=['GET', 'POST'])
-def login():
-
-    if request.method == 'GET':
-        return render_template('forms/newlogin.html', **user_config['content'])
-
-    # IF POST
-
-    username = request.form['username']
-    password = request.form['password']
-
-##############
-
-    import requests
-    import simplejson as json
-
-    NODE = 'myapi'
-    PORT = 5000
-
-    URL = 'http://%s:%s' % (NODE, PORT)
-    LOGIN_URL = URL + '/api/login'
-    HEADERS = {'content-type': 'application/json'}
-    payload = {'email': username, 'password': password}
-
-    # http://mandarvaze.github.io/2015/01/token-auth-with-flask-security.html
-    r = requests.post(LOGIN_URL, data=json.dumps(payload), headers=HEADERS, timeout=5)
-    if True:
-    # if registered_user is None:
-        flash('Username or Password is invalid', 'danger')
-        flash(r.json())
-
-# OK
-# If {'response': {'user': {'authentication_token':  AND 'meta': {'code': 200}}
-
-# BAD
-# {'response': {'errors': {'email': ['Specified user does not exist']}}, 'meta': {'code': 400}}
-
-        return redirect(url_for('.login'))
-
-##############
-# OLD
-    # registered_user = User.query.filter_by(username=username,
-    #                                        password=password).first()
-
-    # print("\n\nUSER*%s*%s*" % (username, password))
-    # print(registered_user)
-    # print("\n\n")
-    # if registered_user is None:
-    #     flash('Username or Password is invalid', 'danger')
-    #     return redirect(url_for('.login'))
-    # login_user(registered_user)
-##############
-
-    flash('Logged in successfully')
-    return redirect(request.args.get('next') or url_for('.view'))
+@cms.route('/auth', methods=['POST'])
+def auth():
+    """
+    IMPORTANT: This route is a proxy for JS code to APIs login.
+    With this we can 'intercept' the request and save extra info on server
+    side, such as: ip, user, token
+    """
+    # Verify POST data
+    if not ('username' in request.json and 'password' in request.json):
+        return "No valid (json) data credentials", hcodes.HTTP_BAD_UNAUTHORIZED
+    # Request login (with or without API)
+    resp, code = login_point(
+            request.json['username'], request.json['password'])
+    if resp is None:
+        resp = {}
+    # Forward response
+    return jsonify(**resp), code
 
 
-################################################
-# # REIMPLEMENT
-# @cms.route('/register')
-# def register():
-#     form = forms.RegisterForm(request.form)
-#     return render_template('forms/register.html', form=form)
+# @cms.route('/loggedout')
+# def logout():
+#     """
+#     A route for logout with both JS and Python.
+#     Note: JS has to take the responsibility of logging out Python too, here.
+#     """
+#     logout_user()
+#     return jstemplate()
+#     # return redirect(url_for('.home'))
 
 
-# @cms.route('/forgot')
-# def forgot():
-#     form = forms.ForgotForm(request.form)
-#     return render_template('forms/forgot.html', form=form)
-
-@cms.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('.home'))
+@cms.route('/register')
+def register():
+    return "THIS IS YET TO DO (also 'forgot password')"
 ################################################
 
 
-################
-# UPLOADs
-################
+# ################
+# # UPLOADs
+# ################
 
-# For a given file, return whether it's an allowed type or not
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
+# # For a given file, return whether it's an allowed type or not
+# def allowed_file(filename):
+#     return '.' in filename and \
+#            filename.rsplit('.', 1)[1] in \
+#            current_app.config['ALLOWED_EXTENSIONS']
 
-# Only needed for separate debug
+# # Only needed for separate debug
+
+# # # Route that will process the file upload
+# # @cms.route('/uploader/<int:id>', methods=['GET'])
+# # def uploader(id):
+# #     flash("Id is %d" % id)
+# #     return render_template('forms/upload.html', **user_config['content'])
+
+# # # Expecting a parameter containing the name of a file.
+# # # It will locate that file on the upload directory and show it
+# # @cms.route('/uploads/<filename>')
+# # def uploaded_file(filename):
+# #     return send_from_directory(current_app.config['UPLOAD_FOLDER'],
+# #                                filename)
+
 
 # # Route that will process the file upload
-# @cms.route('/uploader/<int:id>', methods=['GET'])
-# def uploader(id):
-#     flash("Id is %d" % id)
-#     return render_template('forms/upload.html', **user_config['content'])
-
-# # Expecting a parameter containing the name of a file.
-# # It will locate that file on the upload directory and show it
-# @cms.route('/uploads/<filename>')
-# def uploaded_file(filename):
-#     return send_from_directory(current_app.config['UPLOAD_FOLDER'],
-#                                filename)
-
-
-# Route that will process the file upload
-@cms.route('/upload/<int:id>', methods=['POST'])
-def upload(id):
-    # Get the name of the uploaded file
-    file = request.files['file']
-    # Check if the file is one of the allowed types/extensions
-    if file and allowed_file(file.filename):
-        # Make the filename safe, remove unsupported chars
-        filename = secure_filename(file.filename)
-        # Build the directory and make if if not exists
-        mydir = os.path.join(
-            current_app.config['UPLOAD_FOLDER'], str(id))
-        if not os.path.exists(mydir):
-            os.mkdir(mydir)
-        abs_filepath = os.path.join(mydir, filename)
-        # Move the file from the temporal folder
-        file.save(abs_filepath)
-        # Redirect
-        # return redirect(url_for('.uploaded_file', filename=filename))
-# // TO FIX:
-# Change this to view of single id
-        return redirect('/view/' + str(id) + '?uploaded=' + filename)
+# @cms.route('/upload/<int:id>', methods=['POST'])
+# def upload(id):
+#     # Get the name of the uploaded file
+#     file = request.files['file']
+#     # Check if the file is one of the allowed types/extensions
+#     if file and allowed_file(file.filename):
+#         # Make the filename safe, remove unsupported chars
+#         filename = secure_filename(file.filename)
+#         # Build the directory and make if if not exists
+#         mydir = os.path.join(
+#             current_app.config['UPLOAD_FOLDER'], str(id))
+#         if not os.path.exists(mydir):
+#             os.mkdir(mydir)
+#         abs_filepath = os.path.join(mydir, filename)
+#         # Move the file from the temporal folder
+#         file.save(abs_filepath)
+#         # Redirect
+#         # return redirect(url_for('.uploaded_file', filename=filename))
+# # // TO FIX:
+# # Change this to view of single id
+#         return redirect('/view/' + str(id) + '?uploaded=' + filename)
 
 
 ######################################################
-myroute = 'angular'
+@cms.route('/', methods=["GET"])
+@cms.route('/<path:mypath>', methods=["GET"])
+def home(mypath=None):
+    """
+    The main and only real HTML route in this server.
+    The only real purpose is to serve angular pages and routes.
+    """
+    logger.debug("Using angular route. PATH is '%s'" % mypath)
+    if mypath is None:
+        return templating('welcome.html')
+    elif mypath == 'loggedout':
+        logout_user()
+    return jstemplate()
 
+# ############################
+# # Dirty fix for URL BASE in angular HTML5mode
 
-@cms.route('/' + myroute + '/', methods=["GET", "POST"])
-@cms.route('/' + myroute + '/<path:mypath>', methods=["GET", "POST"])
-@login_required
-def angular(mypath=None):
-    template = 'angularviews/experiment.html'
+#     if request.url_root not in user_config['content']['stylesheets'][0]:
+#         # FIX CSS
+#         new = []
+#         tmp = user_config['content']['stylesheets']
+#         for x in tmp:
+#             new.append(request.url_root + x)
+#         user_config['content']['stylesheets'] = new
+#         # FIX JS
+#         new = []
+#         tmp = user_config['content']['jsfiles']
+#         for x in tmp:
+#             new.append(request.url_root + x)
+#         user_config['content']['jsfiles'] = new
+#         # FIX IMAGES
+#         new = []
+#         tmp = user_config['content']['logos']
+#         for x in tmp:
+#             new.append({
+#                 'src': request.url_root + x['src'],
+#                 'width': x['width']})
+#         user_config['content']['logos'] = new
 
-############################
-# Dirty fix for URL BASE in angular HTML5mode
-
-    if request.url_root not in user_config['content']['stylesheets'][0]:
-        # FIX CSS
-        new = []
-        tmp = user_config['content']['stylesheets']
-        for x in tmp:
-            new.append(request.url_root + x)
-        user_config['content']['stylesheets'] = new
-        # FIX JS
-        new = []
-        tmp = user_config['content']['jsfiles']
-        for x in tmp:
-            new.append(request.url_root + x)
-        user_config['content']['jsfiles'] = new
-        # FIX IMAGES
-        new = []
-        tmp = user_config['content']['logos']
-        for x in tmp:
-            new.append({
-                'src': request.url_root + x['src'],
-                'width': x['width']})
-        user_config['content']['logos'] = new
-
-# Dirty fix for URL BASE in angular HTML5mode
-############################
-
-    return render_template(template, mydomain='/' + myroute + '/',
-                           **user_config['content'])
+# # Dirty fix for URL BASE in angular HTML5mode
+# ############################

@@ -1,0 +1,90 @@
+Some:
+- Rest JWT
+  ☐ informations to pass along? user?
+- Add pages
+  ☐ with ease
+- Flask blueprint?
+ ☐ auth blueprint (login part)
+
+ui router pitfall:
+  http://www.codelord.net/2015/06/02/angularjs-pitfalls-using-ui-routers-resolve/
+
+☐ Angular blueprint load
+☐ remove flask-login? login manager aka lm
+ ☐ or make it optional, because you might want to say: 'HEY I USE APIs'
+
+☐ Why js variables are so slow to be defined?
+ ☐ ngcloak? https://docs.angularjs.org/api/ng/directive/ngCloak
+
+☐ Api connection retry?
+https://github.com/rholder/retrying
+
+☐ reduce html size on whitespaces
+https://github.com/mitsuhiko/jinja2-htmlcompress
+
+
+---- ✄ -----------------------
+ ☐ graphdb can be set a password from variable:  NEO4J_AUTH = neo4j/<password>
+ https://hub.docker.com/_/neo4j/
+ ☐ irods and graphdb should be easily pluggable
+   ☐ import of a whole directory?
+   ☐ configure endpoint files from absolute path/directory?
+     ☐ security?
+
+
+RESOURCES:
+ How to quickly add a blueprint for a whole new suburl
+http://flask.pocoo.org/snippets/59/
+
+PEOPLE WHO ARE ALSO DOING THINGS LIKE US
+https://github.com/shea256/angular-flask
+https://github.com/shea256/flask-app-generator
+--- ✄ -----------------------
+
+Completed:
+  ✔ Clean repo @done (15-11-06 08:41)
+  ✔ copy skeleton from autoforms @done (15-11-06 10:45)
+    ✔ update flask_table to latest fixes @online @done (15-11-06 13:41)
+    ✔ copy json configuration @done (15-11-06 10:45)
+      ✘ or create new one @cancelled (15-11-06 12:48)
+  ✔ mix with gulp skeleton @done (15-11-06 12:48)
+    ✔ link bower_components @done (15-11-06 10:54)
+  ✔ add angular page @done (15-11-06 13:56)
+  ✔ Routing @done (15-11-11 22:51)
+    ✔ dynamic python base (in index head) @done (15-11-11 22:51)
+    ✔ example of subpath @done (15-11-11 22:51)
+ ✔ angular html5 mode @done (15-11-12 09:21)
+ ✔ angular access to URL via @location @done (15-11-12 09:21)
+ ✔ flask routing @done (15-11-12 09:30)
+ ✔ Could there be an angular routing working in html5 mode with flask? @done (15-11-12 16:13)
+  ✔ config enable + base (relative /mypath/) + make other links absolute @done (15-11-12 16:14)
+ ✔ images problem @done (15-11-12 18:29)
+✔ Authentication @done (15-12-18 07:49)
+ ✔ save @token @done (15-12-18 13:33)
+ ✔ broke normal standalone view... @done (15-12-18 16:24)
+   ✘ add test page @cancelled (15-12-18 16:24)
+ ✘ sql lite secret? shared with restmock and angulask?? @cancelled (15-12-18 16:24)
+✔ clue to check dbs @done (15-12-19 09:54)
+ ✔ broken angular view @done (15-12-19 09:56)
+✔ angular ui-router via bower @done (15-11-12 19:14)
+  ✔ auth @done (15-12-30 16:46)
+    ✔ check satellizer @done (15-12-29 15:12)
+      ✔ otherwise redirect to (internal angular) login @done (15-12-29 15:12)
+✔ A good old logger... PLEASE! @done (15-12-29 09:24)
+   ✔ then fix back rest-mock/models.py @done (15-12-29 09:24)
+    ✔ logout proxy, which logsout also APIs and is called by satellizer @done (15-12-30 16:46)
+  ✔ switch to materialize @done (15-12-12 20:14)
+  ✔ jinja 2 whitespace problems @done (15-12-16 14:21)
+    http://jinja.pocoo.org/docs/dev/templates/#whitespace-control
+  ✘ prepare python page @cancelled (15-12-30 16:48)
+    ✘ add template @cancelled (15-12-30 16:48)
+✔ Automatic switch backend if apis are available @done (15-12-16 18:30)
+ ✔ Angulask login @done (15-12-16 18:30)
+ ✔ If backend @done (15-12-17 13:54)
+✔ Automatize the adding of a single page/model @done (15-12-12 00:04)
+  http://blog.luisrei.com/articles/flaskrest.html
+  ✔ python module with a blueprint @done (15-12-12 00:04)
+    ✘ also an ini file which says which file and which blueprint @cancelled (15-12-12 00:04)
+    ✘ and also which template directory? uhm @cancelled (15-12-12 00:04)
+   ✘ example in docs for adding a page and template @cancelled (15-12-30 16:46)
+

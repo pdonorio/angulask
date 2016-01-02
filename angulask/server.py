@@ -3,20 +3,35 @@
 
 """ Factory and blueprints patterns """
 
+from __future__ import absolute_import
 import os
-import logging
 import csv
 from flask import Flask, request as req
 from sqlalchemy import inspect
-from . import CONFIG_MODULE
+from config import get_logger
+from . import htmlcodes as hcodes
 from .pages import cms
 from .basemodel import db, lm, User, MyModel
-from . import pypages as custom_views
-from . import m
+from . import CONFIG_MODULE, m, pypages as custom_views
+
+logger = get_logger(__name__)
 
 
 ################
 def init_insert(db, userconfig):
+    """
+    This function has been prepared originally to load data from csv
+    and inject it at server startup inside the main data model.
+
+    I was assumning the server to work directly with a database,
+    sqllite or postgres.
+
+    Things have changed, and angular works with APIs, which are elastic
+    and modular and granular. So data is no longer needed to be created here.
+
+    This has become deprecated and WILL BE REMOVED SOME TIME SOON
+    """
+
     # Add at least the first user
     user = User(**userconfig['BASIC_USER'])
     db.session.add(user)
@@ -70,8 +85,6 @@ def create_app():
 
     # Database
     db.init_app(app)
-
-    app.logger.setLevel(logging.NOTSET)
     # Add basic things to this app
     app.register_blueprint(cms)
     # Dynamically load all custom blueprints from pypages module
@@ -82,7 +95,7 @@ def create_app():
         try:
             app.register_blueprint(module.bp)
         except Exception:
-            app.logger.warning(
+            logger.warning(
                 "OOPS: Could not find 'bp' inside module '%s'" % module_name)
 
     # Flask LOGIN
@@ -91,15 +104,12 @@ def create_app():
 
     # Application context
     with app.app_context():
-        # Extensions like Flask-SQLAlchemy now know what the "current" app
-        # is while within this block. Therefore, you can now run........
-        db.drop_all()
-# // TO FIX:
-# Drop tables and populate with basic data, only on request
-# e.g. startup option
-        print("Created DB/tables")
         db.create_all()
-        init_insert(db, app.config)
+        # OLD & BAD
+        #logger.critical("Dropping DB")
+        #db.drop_all()
+        #init_insert(db, app.config)
+        logger.info("Initialized Database")
 
 # SANITY CHECKS?
         # from .sanity_checks import is_sane_database
@@ -110,8 +120,10 @@ def create_app():
     # Logging
     @app.after_request
     def log_response(resp):
-        app.logger.info("{} {} {}\n{}".format(
-                        req.method, req.url, req.data, resp))
+        log = logger.info
+        if resp.status_code == hcodes.HTTP_NOT_MODIFIED:
+            log = logger.debug
+        log("{} {} {} {}".format(req.method, req.url, req.data, resp))
         return resp
 
     return app
